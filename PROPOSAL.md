@@ -1,2 +1,2 @@
 # Project Proposal
-#Idea
+*Idea*
