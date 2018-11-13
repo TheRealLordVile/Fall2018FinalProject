@@ -1,9 +1,17 @@
 #pragma once
 
 #include "ofMain.h"
+#include "maze.hpp"
 
 class ofApp : public ofBaseApp{
+    enum GameState {
+        IN_PROGRESS = 0,
+        PAUSED,
+        FINISHED
+    };
+    GameState current_state = IN_PROGRESS;
     ofImage lol;
+    ofImage coin;
 	public:
 		void setup();
 		void update();
