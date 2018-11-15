@@ -10,6 +10,8 @@ class ofApp : public ofBaseApp{
         FINISHED
     };
     GameState current_state = IN_PROGRESS;
+    ofSoundPlayer pacmanSiren;
+    ofImage pacmanSprite;
     ofImage lol;
     ofImage coin;
 	public:
