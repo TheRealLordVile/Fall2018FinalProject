@@ -29,9 +29,19 @@ void ofApp::draw(){
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width ;j++){
             if(new_maze.layout[i][j] == Maze::mazeElement::COIN){
-                coin.draw(j*ofGetWindowWidth()/width + 10, i*ofGetWindowHeight()/height+10,10,10);
+                coin.draw(j * ofGetWindowWidth() / width,
+                          i * ofGetWindowHeight() / height,
+                          ofGetWindowWidth() / width,
+                          ofGetWindowHeight() / height);
             } else if(new_maze.layout[i][j] == Maze::mazeElement::PACMAN){
-                pacmanSprite.draw(j*ofGetWindowWidth()/width -15, i*ofGetWindowHeight()/height-10,40,40);
+                
+                double x_loc = j * ofGetWindowWidth()/width-ofGetWindowWidth() /
+                              width / 3;
+                double y_loc = i*ofGetWindowHeight()/height-ofGetWindowHeight()
+                              / height / 5;
+                double x_size = 3 * ofGetWindowWidth() / width / 2;
+                double y_size = 4 * ofGetWindowHeight() / height / 3;
+                pacmanSprite.draw(x_loc, y_loc,x_size,y_size);
             }
         }
     }
