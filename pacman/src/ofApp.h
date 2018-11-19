@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "maze.hpp"
+#include "pacman.hpp"
 
 class pacmanGame : public ofBaseApp{
     enum GameState {
@@ -11,9 +12,8 @@ class pacmanGame : public ofBaseApp{
     };
     GameState current_state = IN_PROGRESS;
     ofSoundPlayer pacmanSiren;
-    ofImage pacmanSprite;
-    ofImage lol;
-    ofImage coin;
+    Maze maze;
+    Pacman pacman;
 	public:
 		void setup();
 		void update();

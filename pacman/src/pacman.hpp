@@ -24,6 +24,7 @@ public:
     ofImage getPacmanSprite();
     void increasePoints(int increase_amount);
     int getNumberOfPoints();
+    Direction getDirection();
 private:
     Direction direction_moving;
     int num_points;
