@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void pacmanGame::setup() {
-    pacmanSiren.load("/Users/a.kadri/Desktop/SFX_Pacman/Siren.mp3");
+    pacmanSiren.load("../../sounds/Siren.mp3");
     pacmanSiren.setLoop(true);
     pacmanSiren.play();
 }

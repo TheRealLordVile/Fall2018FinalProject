@@ -11,9 +11,9 @@ Pacman::Pacman() {
     num_lives = 3;
     num_points = 0;
     anim_count = 0;
-    pacman_sprite_1.load("/Users/a.kadri/Desktop/image.png");
-    pacman_sprite_2.load("/Users/a.kadri/Desktop/image.png");
-    pacman_sprite_3.load("/Users/a.kadri/Desktop/image.png");
+    pacman_sprite_1.load("../../images/pacman_1.png");
+    pacman_sprite_2.load("../../images/pacman_1.png");
+    pacman_sprite_3.load("../../images/pacman_1.png");
     direction_moving = LEFT;
 }
 ofImage Pacman::getPacmanSprite() {

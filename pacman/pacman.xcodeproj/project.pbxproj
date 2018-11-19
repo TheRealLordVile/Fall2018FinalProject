@@ -58,6 +58,17 @@
 		DB90009621993EC40066526B /* maze.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = maze.hpp; sourceTree = "<group>"; };
 		DBB07C7521A279B70071112A /* pacman.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pacman.cpp; sourceTree = "<group>"; };
 		DBB07C7621A279B70071112A /* pacman.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pacman.hpp; sourceTree = "<group>"; };
+		DBB07C8221A287960071112A /* Pacman Intermission.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Pacman Intermission.mp3"; sourceTree = "<group>"; };
+		DBB07C8321A287960071112A /* Pacman Dies.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Pacman Dies.mp3"; sourceTree = "<group>"; };
+		DBB07C8421A287960071112A /* Pacman Waka Waka.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Pacman Waka Waka.mp3"; sourceTree = "<group>"; };
+		DBB07C8521A287960071112A /* Siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Siren.mp3; sourceTree = "<group>"; };
+		DBB07C8621A287960071112A /* Pacman Eating Ghost.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Pacman Eating Ghost.mp3"; sourceTree = "<group>"; };
+		DBB07C8721A287960071112A /* Pacman Eating Cherry.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Pacman Eating Cherry.mp3"; sourceTree = "<group>"; };
+		DBB07C8821A287960071112A /* Pacman Opening Song.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Pacman Opening Song.mp3"; sourceTree = "<group>"; };
+		DBB07C8921A287960071112A /* Pacman Extra Live.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Pacman Extra Live.mp3"; sourceTree = "<group>"; };
+		DBB07C8A21A287BB0071112A /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		DBB07C8B21A287BB0071112A /* pacman_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pacman_1.png; sourceTree = "<group>"; };
+		DBB07C8D21A2881C0071112A /* coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin.png; sourceTree = "<group>"; };
 		E42962AC2163EDD300A6A9E2 /* ofCamera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ofCamera.cpp; path = ../../../Downloads/of_v20181112_osx_release/libs/openFrameworks/3d/ofCamera.cpp; sourceTree = SOURCE_ROOT; };
 		E42962AD2163EDD300A6A9E2 /* ofMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofMesh.h; path = ../../../Downloads/of_v20181112_osx_release/libs/openFrameworks/3d/ofMesh.h; sourceTree = SOURCE_ROOT; };
 		E42962AE2163EDD300A6A9E2 /* ofNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofNode.h; path = ../../../Downloads/of_v20181112_osx_release/libs/openFrameworks/3d/ofNode.h; sourceTree = SOURCE_ROOT; };
@@ -304,6 +315,31 @@
 				480A780D8D0308AE4A368801 /* ofxGui */,
 			);
 			name = addons;
+			sourceTree = "<group>";
+		};
+		DBB07C8021A287640071112A /* images */ = {
+			isa = PBXGroup;
+			children = (
+				DBB07C8A21A287BB0071112A /* background.png */,
+				DBB07C8B21A287BB0071112A /* pacman_1.png */,
+				DBB07C8D21A2881C0071112A /* coin.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		DBB07C8121A2876D0071112A /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				DBB07C8321A287960071112A /* Pacman Dies.mp3 */,
+				DBB07C8721A287960071112A /* Pacman Eating Cherry.mp3 */,
+				DBB07C8621A287960071112A /* Pacman Eating Ghost.mp3 */,
+				DBB07C8921A287960071112A /* Pacman Extra Live.mp3 */,
+				DBB07C8221A287960071112A /* Pacman Intermission.mp3 */,
+				DBB07C8821A287960071112A /* Pacman Opening Song.mp3 */,
+				DBB07C8421A287960071112A /* Pacman Waka Waka.mp3 */,
+				DBB07C8521A287960071112A /* Siren.mp3 */,
+			);
+			path = sounds;
 			sourceTree = "<group>";
 		};
 		E42962AA2163EDD300A6A9E2 /* openFrameworks */ = {
@@ -593,6 +629,8 @@
 			children = (
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
+				DBB07C8121A2876D0071112A /* sounds */,
+				DBB07C8021A287640071112A /* images */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E42962AA2163EDD300A6A9E2 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
