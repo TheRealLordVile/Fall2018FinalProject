@@ -1,0 +1,36 @@
+//
+//  pacman.hpp
+//  pacman
+//
+//  Created by A.Kadri Türker on 11/18/18.
+//
+
+#ifndef pacman_hpp
+#define pacman_hpp
+
+#include <stdio.h>
+#include "ofMain.h"
+
+class Pacman {
+public:
+    enum Direction{
+        NONE,
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    };
+    Pacman();
+    ofImage getPacmanSprite();
+    void increasePoints(int increase_amount);
+    int getNumberOfPoints();
+private:
+    Direction direction_moving;
+    int num_points;
+    int anim_count;
+    int num_lives;
+    ofImage pacman_sprite_1;
+    ofImage pacman_sprite_2;
+    ofImage pacman_sprite_3;
+};
+#endif /* pacman_hpp */

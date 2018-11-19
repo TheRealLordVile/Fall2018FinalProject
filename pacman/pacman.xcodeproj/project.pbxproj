@@ -18,6 +18,7 @@
 		BC00B5AF7006808A42D6CFCB /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F58C0C2811D2858198C6F1A /* ofxSliderGroup.cpp */; };
 		C0EE7244E5C3B81C625D3D4B /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26F9B02FC405B2940DFB26D1 /* ofxSlider.cpp */; };
 		DB90009721993EC40066526B /* maze.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DB90009521993EC40066526B /* maze.cpp */; };
+		DBB07C7721A279B70071112A /* pacman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBB07C7521A279B70071112A /* pacman.cpp */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
 /* End PBXBuildFile section */
@@ -55,6 +56,8 @@
 		D298B40C53E40C8524280152 /* ofxLabel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxLabel.h; path = ../../../Downloads/of_v20181112_osx_release/addons/ofxGui/src/ofxLabel.h; sourceTree = SOURCE_ROOT; };
 		DB90009521993EC40066526B /* maze.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = maze.cpp; sourceTree = "<group>"; };
 		DB90009621993EC40066526B /* maze.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = maze.hpp; sourceTree = "<group>"; };
+		DBB07C7521A279B70071112A /* pacman.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pacman.cpp; sourceTree = "<group>"; };
+		DBB07C7621A279B70071112A /* pacman.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pacman.hpp; sourceTree = "<group>"; };
 		E42962AC2163EDD300A6A9E2 /* ofCamera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ofCamera.cpp; path = ../../../Downloads/of_v20181112_osx_release/libs/openFrameworks/3d/ofCamera.cpp; sourceTree = SOURCE_ROOT; };
 		E42962AD2163EDD300A6A9E2 /* ofMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofMesh.h; path = ../../../Downloads/of_v20181112_osx_release/libs/openFrameworks/3d/ofMesh.h; sourceTree = SOURCE_ROOT; };
 		E42962AE2163EDD300A6A9E2 /* ofNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofNode.h; path = ../../../Downloads/of_v20181112_osx_release/libs/openFrameworks/3d/ofNode.h; sourceTree = SOURCE_ROOT; };
@@ -605,6 +608,8 @@
 				DB90009521993EC40066526B /* maze.cpp */,
 				DB90009621993EC40066526B /* maze.hpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				DBB07C7521A279B70071112A /* pacman.cpp */,
+				DBB07C7621A279B70071112A /* pacman.hpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 			);
 			path = src;
@@ -711,6 +716,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				2420E5C365CD9803E1641405 /* ofxBaseGui.cpp in Sources */,
+				DBB07C7721A279B70071112A /* pacman.cpp in Sources */,
 				A1CA19C7A49F6D01155C1F92 /* ofxButton.cpp in Sources */,
 				826B11A060E2C51E42AFE1CB /* ofxColorPicker.cpp in Sources */,
 				731052270F6B401D983D1BA7 /* ofxGuiGroup.cpp in Sources */,

@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "maze.hpp"
 
-class ofApp : public ofBaseApp{
+class pacmanGame : public ofBaseApp{
     enum GameState {
         IN_PROGRESS = 0,
         PAUSED,
