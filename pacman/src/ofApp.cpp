@@ -10,11 +10,38 @@ void pacmanGame::setup() {
 //--------------------------------------------------------------
 void pacmanGame::update() {
     if (current_state == IN_PROGRESS) {
-        if (pacman.getDirection() != pacman.NONE) {
-            
-        }
+        updatePacman();
     }
 
+}
+void pacmanGame::updatePacman() {
+    switch (pacman.getDirection()) {
+        case Pacman::NONE:
+            break;
+        case Pacman::UP:
+            if(!maze.canPacmanMove(Pacman::UP)){
+                pacman.setDirection(Pacman::NONE);
+            }
+            break;
+        case Pacman::DOWN:
+            if(!maze.canPacmanMove(Pacman::DOWN)){
+                pacman.setDirection(Pacman::NONE);
+            }
+            
+            break;
+        case Pacman::LEFT:
+            if(!maze.canPacmanMove(Pacman::LEFT)){
+                pacman.setDirection(Pacman::NONE);
+            }
+            
+            break;
+        case Pacman::RIGHT:
+            if(!maze.canPacmanMove(Pacman::RIGHT)){
+                pacman.setDirection(Pacman::NONE);
+            }
+            
+            break;
+    }
 }
 
 //--------------------------------------------------------------
@@ -46,7 +73,29 @@ void pacmanGame::draw() {
 
 //--------------------------------------------------------------
 void pacmanGame::keyPressed(int key){
-
+    int upper_key = toupper(key);
+    switch (upper_key) {
+        case 'W':
+            if( pacman.getDirection() != Pacman::DOWN) {
+                pacman.setDirection(Pacman::UP);
+            }
+            break;
+        case 'S':
+            if( pacman.getDirection() != Pacman::UP) {
+                pacman.setDirection(Pacman::DOWN);
+            }
+            break;
+        case 'A':
+            if( pacman.getDirection() != Pacman::RIGHT) {
+                pacman.setDirection(Pacman::LEFT);
+            }
+            break;
+        case 'D':
+            if( pacman.getDirection() != Pacman::LEFT) {
+                pacman.setDirection(Pacman::RIGHT);
+            }
+            break;
+    }
 }
 
 //--------------------------------------------------------------

@@ -27,7 +27,10 @@ public:
     mazeElement getElementAt(int col, int row);
     int getMazeHeight();
     int getMazeWidth();
+    bool canPacmanMove(int pacman_direction);
 private:
+    int pacman_x;
+    int pacman_y;
     ofImage background;
     ofImage coin_sprite;
     std::vector<std::vector<mazeElement>> layout;

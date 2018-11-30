@@ -14,7 +14,7 @@ Pacman::Pacman() {
     pacman_sprite_1.load("../../images/pacman_1.png");
     pacman_sprite_2.load("../../images/pacman_1.png");
     pacman_sprite_3.load("../../images/pacman_1.png");
-    direction_moving = LEFT;
+    direction_moving = NONE;
 }
 ofImage Pacman::getPacmanSprite() {
     ofImage to_be_returned = pacman_sprite_1;
@@ -48,4 +48,9 @@ int Pacman::getNumberOfPoints() {
 Pacman::Direction Pacman::getDirection() {
     return direction_moving;
 }
+void Pacman::setDirection(Pacman::Direction new_dir) {
+    direction_moving = new_dir;
+}
+
+
 
