@@ -5,6 +5,8 @@ void pacmanGame::setup() {
     pacmanSiren.load("../../sounds/Siren.mp3");
     pacmanSiren.setLoop(true);
     pacmanSiren.play();
+    srand(static_cast<unsigned>(time(0)));
+
 }
 
 //--------------------------------------------------------------
@@ -12,63 +14,57 @@ void pacmanGame::update() {
     if (current_state == IN_PROGRESS) {
         updatePacman();
     }
-
 }
+
 void pacmanGame::updatePacman() {
     switch (pacman.getDirection()) {
         case Pacman::NONE:
             break;
         case Pacman::UP:
-            if(!maze.canPacmanMove(Pacman::UP)){
-                pacman.setDirection(Pacman::NONE);
-            }
+            maze.canPacmanMove(Pacman::UP);
             break;
+        
         case Pacman::DOWN:
-            if(!maze.canPacmanMove(Pacman::DOWN)){
-                pacman.setDirection(Pacman::NONE);
-            }
-            
+            maze.canPacmanMove(Pacman::DOWN);
             break;
+            
         case Pacman::LEFT:
-            if(!maze.canPacmanMove(Pacman::LEFT)){
-                pacman.setDirection(Pacman::NONE);
-            }
-            
+            maze.canPacmanMove(Pacman::LEFT);
             break;
+            
         case Pacman::RIGHT:
-            if(!maze.canPacmanMove(Pacman::RIGHT)){
-                pacman.setDirection(Pacman::NONE);
-            }
-            
-            break;
+            maze.canPacmanMove(Pacman::RIGHT);
     }
 }
 
 //--------------------------------------------------------------
 void pacmanGame::draw() {
-    maze.getBackground().draw(0, 0,ofGetWindowWidth(),ofGetWindowHeight());
-    int height = maze.getMazeHeight();
-    int width = maze.getMazeWidth();
-    for(int i = 0; i < height; i++){
-        for(int j = 0; j < width; j++){
-            if(maze.getElementAt(i,j) == Maze::mazeElement::COIN){
+    if(current_state == IN_PROGRESS){
+        maze.getBackground().draw(0, 0,ofGetWindowWidth(),ofGetWindowHeight());
+        int height = maze.getMazeHeight();
+        int width = maze.getMazeWidth();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+            if (maze.getElementAt(i,j) == Maze::mazeElement::COIN){
                 maze.getCoinSprite().draw(j * ofGetWindowWidth() / width,
                                           i * ofGetWindowHeight() / height,
                                           ofGetWindowWidth() / width,
                                           ofGetWindowHeight() / height);
-            } else if(maze.getElementAt(i,j) == Maze::mazeElement::PACMAN){
                 
-                double x_loc = j * ofGetWindowWidth()/width-ofGetWindowWidth() /
+            }
+            else if(maze.getElementAt(i,j) == Maze::mazeElement::PACMAN){
+                
+                double x_loc = j * ofGetWindowWidth()/width-ofGetWindowWidth()/
                               width / 3;
-                double y_loc = i*ofGetWindowHeight()/height-ofGetWindowHeight()
+                double y_loc = i * ofGetWindowHeight()/height-ofGetWindowHeight()
                               / height / 5;
                 double x_size = 3 * ofGetWindowWidth() / width / 2;
                 double y_size = 4 * ofGetWindowHeight() / height / 3;
                 pacman.getPacmanSprite().draw(x_loc, y_loc,x_size,y_size);
             }
+            }
         }
     }
-    
 }
 
 //--------------------------------------------------------------

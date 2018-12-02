@@ -16,6 +16,7 @@ Pacman::Pacman() {
     pacman_sprite_3.load("../../images/pacman_1.png");
     direction_moving = NONE;
 }
+
 ofImage Pacman::getPacmanSprite() {
     ofImage to_be_returned = pacman_sprite_1;
     

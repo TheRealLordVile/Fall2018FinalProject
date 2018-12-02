@@ -72,48 +72,48 @@ ofImage Maze::getBackground() {
 bool Maze::canPacmanMove(int pacman_direction) {
     switch (pacman_direction) {
         case 1:
-            if (pacman_y == 0) {
+            if (pacman_x == 0) {
                 return false;
             }
             
-            if (layout[pacman_x][pacman_y -1] != WALL) {
+            if (layout[pacman_x-1][pacman_y] != WALL) {
                 layout[pacman_x][pacman_y] = EMPTY;
-                layout[pacman_x][pacman_y -1] = PACMAN;
+                layout[pacman_x-1][pacman_y] = PACMAN;
                 return true;
             }
             break;
         case 2:
-            if (pacman_y == layout.size()-1) {
+            if (pacman_x == layout[0].size()-1) {
                 return false;
             }
             
-            if (layout[pacman_x][pacman_y +1] != WALL) {
+            if (layout[pacman_x+1][pacman_y] != WALL) {
                 layout[pacman_x][pacman_y] = EMPTY;
-                layout[pacman_x][pacman_y +1] = PACMAN;
+                layout[pacman_x+1][pacman_y] = PACMAN;
                 return true;
             }
             
             break;
         case 3:
-            if (pacman_x == 0) {
+            if (pacman_y == 0) {
                 return false;
             }
             
-            if (layout[pacman_x - 1][pacman_y] != WALL) {
+            if (layout[pacman_x][pacman_y-1] != WALL) {
                 layout[pacman_x][pacman_y] = EMPTY;
-                layout[pacman_x -1][pacman_y] = PACMAN;
+                layout[pacman_x][pacman_y-1] = PACMAN;
                 return true;
             }
     
             break;
         case 4:
-            if (pacman_y == layout[0].size()-1) {
+            if (pacman_y == layout.size()-1) {
                 return false;
             }
             
-            if (layout[pacman_x + 1][pacman_y] != WALL) {
+            if (layout[pacman_x][pacman_y+1] != WALL) {
                 layout[pacman_x][pacman_y] = EMPTY;
-                layout[pacman_x +1][pacman_y] = PACMAN;
+                layout[pacman_x][pacman_y+1] = PACMAN;
                 return true;
             }
     }

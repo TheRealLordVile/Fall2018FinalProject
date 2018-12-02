@@ -13,13 +13,14 @@
 
 class Pacman {
 public:
-    enum Direction{
+    enum Direction {
         NONE,
         UP,
         DOWN,
         LEFT,
         RIGHT
     };
+    
     Pacman();
     ofImage getPacmanSprite();
     void increasePoints(int increase_amount);
