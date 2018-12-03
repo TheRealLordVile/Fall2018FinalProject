@@ -36,7 +36,17 @@ ofImage Pacman::getPacmanSprite() {
     } else{
         anim_count++;
     }
-    
+    switch (direction_moving) {
+        case UP:
+            to_be_returned.rotate90(3);
+            break;
+        case DOWN:
+            to_be_returned.rotate90(1);
+            break;
+        case LEFT:
+            to_be_returned.rotate90(2);
+            break;
+    }
     return to_be_returned;
 }
 

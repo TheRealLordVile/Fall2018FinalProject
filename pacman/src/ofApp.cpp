@@ -11,14 +11,21 @@ void pacmanGame::setup() {
 
 //--------------------------------------------------------------
 void pacmanGame::update() {
-    if (current_state == IN_PROGRESS) {
+    if (current_state == START_SCREEN){
+        
+    } else if(current_state==PAUSED){
+        //drawPauseScreen();
+    } else if(current_state == IN_PROGRESS) {
         updatePacman();
     }
 }
 
 void pacmanGame::updatePacman() {
-    pacman.pos=maze.canPacmanMove(pacman.getDirection(),pacman.pos.first,pacman.pos.second);
-    
+    std::pair<int,int> new_pos=maze.canPacmanMove(pacman.getDirection(),pacman.pos.first,pacman.pos.second);
+    if(new_pos == pacman.pos){
+        pacman.setDirection(Pacman::NONE);
+    }
+    pacman.pos = new_pos;
 }
 
 //--------------------------------------------------------------

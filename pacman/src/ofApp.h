@@ -6,7 +6,8 @@
 
 class pacmanGame : public ofBaseApp{
     enum GameState {
-        IN_PROGRESS = 0,
+        START_SCREEN,
+        IN_PROGRESS,
         PAUSED,
         FINISHED
     };
