@@ -21,7 +21,7 @@ void pacmanGame::update() {
 }
 
 void pacmanGame::updatePacman() {
-    std::pair<int,int> new_pos=maze.canPacmanMove(pacman.getDirection(),pacman.pos.first,pacman.pos.second);
+    std::pair<int,int> new_pos=maze.canPacmanMove(pacman.getDirection(),pacman.pos);
     if(new_pos == pacman.pos){
         pacman.setDirection(Pacman::NONE);
     }

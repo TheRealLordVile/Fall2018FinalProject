@@ -16,7 +16,7 @@ Pacman::Pacman() {
     pacman_sprite_1.load("../../images/pacman_1.png");
     pacman_sprite_2.load("../../images/pacman_1.png");
     pacman_sprite_3.load("../../images/pacman_1.png");
-    direction_moving = NONE;
+    direction_moving = RIGHT;
 }
 
 ofImage Pacman::getPacmanSprite() {
@@ -50,7 +50,7 @@ ofImage Pacman::getPacmanSprite() {
     return to_be_returned;
 }
 
-void Pacman::increasePoints(int increase_amount){
+void Pacman::increasePoints (int increase_amount){
     num_points += increase_amount;
 }
 

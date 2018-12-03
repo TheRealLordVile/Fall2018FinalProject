@@ -27,7 +27,7 @@ public:
     mazeElement getElementAt(int col, int row);
     int getMazeHeight();
     int getMazeWidth();
-    std::pair<int,int> canPacmanMove(int pacman_direction, int x, int y);
+    std::pair<int,int> canPacmanMove(int pacman_direction, std::pair<int,int> pos);
 private:
     ofImage background;
     ofImage coin_sprite;

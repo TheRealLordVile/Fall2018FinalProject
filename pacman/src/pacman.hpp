@@ -9,7 +9,7 @@
 #define pacman_hpp
 
 #include <stdio.h>
-#include "ofMain.h"
+#include <ofMain.h>
 
 class Pacman {
 public:

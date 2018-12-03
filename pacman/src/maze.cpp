@@ -65,11 +65,13 @@ ofImage Maze::getBackground() {
     return background;
 }
 
-std::pair<int,int> Maze::canPacmanMove(int pacman_direction, int x, int y) {
+std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int> pos) {
+    int x = pos.first;
+    int y = pos.second;
     switch (pacman_direction) {
         case 1:
             if (x == 0) {
-                return std::make_pair(x,y);
+                return pos;
             }
             
             if (layout[x-1][y] != WALL) {
@@ -91,10 +93,11 @@ std::pair<int,int> Maze::canPacmanMove(int pacman_direction, int x, int y) {
             
             break;
         case 3:
-            if (y == 0) {
-                return std::make_pair(x,y);
+            if(x == 14 && y == 0){
+                layout[x][y] = EMPTY;
+                layout[x][layout[0].size()-1] = PACMAN;
+                return std::make_pair(x, layout[0].size()-1);
             }
-            
             if (layout[x][y-1] != WALL) {
                 layout[x][y] = EMPTY;
                 layout[x][y-1] = PACMAN;
@@ -103,9 +106,10 @@ std::pair<int,int> Maze::canPacmanMove(int pacman_direction, int x, int y) {
     
             break;
         case 4:
-            if (y == layout.size()) {
-                return std::make_pair(x,y);
-            }
+            if(x == 14 && y == layout[0].size()-1){
+                layout[x][y] = EMPTY;
+                layout[x][0] = PACMAN;
+                return std::make_pair(x,0);            }
             
             if (layout[x][y+1] != WALL) {
                 layout[x][y] = EMPTY;
@@ -114,5 +118,5 @@ std::pair<int,int> Maze::canPacmanMove(int pacman_direction, int x, int y) {
             }
     }
     
-    return std::make_pair(x,y);
+    return pos;
 }
