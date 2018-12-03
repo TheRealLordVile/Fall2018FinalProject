@@ -13,6 +13,7 @@
 
 class Pacman {
 public:
+    std::pair<int,int> pos;
     enum Direction {
         NONE,
         UP,

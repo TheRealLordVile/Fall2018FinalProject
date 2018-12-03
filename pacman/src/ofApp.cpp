@@ -17,24 +17,8 @@ void pacmanGame::update() {
 }
 
 void pacmanGame::updatePacman() {
-    switch (pacman.getDirection()) {
-        case Pacman::NONE:
-            break;
-        case Pacman::UP:
-            maze.canPacmanMove(Pacman::UP);
-            break;
-        
-        case Pacman::DOWN:
-            maze.canPacmanMove(Pacman::DOWN);
-            break;
-            
-        case Pacman::LEFT:
-            maze.canPacmanMove(Pacman::LEFT);
-            break;
-            
-        case Pacman::RIGHT:
-            maze.canPacmanMove(Pacman::RIGHT);
-    }
+    pacman.pos=maze.canPacmanMove(pacman.getDirection(),pacman.pos.first,pacman.pos.second);
+    
 }
 
 //--------------------------------------------------------------
