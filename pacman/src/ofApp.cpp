@@ -31,7 +31,11 @@ void pacmanGame::updatePacman() {
 
 //--------------------------------------------------------------
 void pacmanGame::draw() {
-    if(current_state == IN_PROGRESS){
+    
+    if (current_state == START_SCREEN) {
+        
+        
+    } else if (current_state == IN_PROGRESS) {
         maze.getBackground().draw(0, 0,ofGetWindowWidth(),ofGetWindowHeight());
         int height = maze.getMazeHeight();
         int width = maze.getMazeWidth();
@@ -103,7 +107,7 @@ void pacmanGame::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void pacmanGame::mousePressed(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
