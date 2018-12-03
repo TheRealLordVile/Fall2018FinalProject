@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void pacmanGame::setup() {
+    ofSetFrameRate(7);
     pacmanSiren.load("../../sounds/Siren.mp3");
     pacmanSiren.setLoop(true);
     pacmanSiren.play();
