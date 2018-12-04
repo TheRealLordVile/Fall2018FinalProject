@@ -13,7 +13,7 @@ void pacmanGame::setup() {
 //--------------------------------------------------------------
 void pacmanGame::update() {
     if (current_state == START_SCREEN){
-        
+        //drawStartScreen
     } else if(current_state==PAUSED){
         //drawPauseScreen();
     } else if(current_state == IN_PROGRESS) {
@@ -66,6 +66,11 @@ void pacmanGame::draw() {
 //--------------------------------------------------------------
 void pacmanGame::keyPressed(int key){
     int upper_key = toupper(key);
+    if(upper_key=='P' && (current_state == IN_PROGRESS ||
+                          current_state == PAUSED)){
+        current_state = (current_state == IN_PROGRESS) ? PAUSED : IN_PROGRESS;
+    }
+    if (current_state == IN_PROGRESS) {
     switch (upper_key) {
         case 'W':
             if( pacman.getDirection() != Pacman::DOWN) {
@@ -87,6 +92,7 @@ void pacmanGame::keyPressed(int key){
                 pacman.setDirection(Pacman::RIGHT);
             }
             break;
+    }
     }
 }
 
