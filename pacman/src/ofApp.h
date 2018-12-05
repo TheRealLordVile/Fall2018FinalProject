@@ -14,9 +14,13 @@ class pacmanGame : public ofBaseApp{
     
     GameState current_state = IN_PROGRESS;
     ofSoundPlayer pacmanSiren;
+    ofSoundPlayer wakaWaka;
     Maze maze;
     Pacman pacman;
     void updatePacman();
+    void drawPauseScreen();
+    void drawGameState();
+    void adjustPacmanSound();
 public:
     void setup();
     void update();
