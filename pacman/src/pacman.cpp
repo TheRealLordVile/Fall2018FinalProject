@@ -36,6 +36,7 @@ ofImage Pacman::getPacmanSprite() {
     } else{
         anim_count++;
     }
+    
     switch (direction_moving) {
         case UP:
             to_be_returned.rotate90(3);

@@ -5,6 +5,11 @@
 #include "pacman.hpp"
 
 class pacmanGame : public ofBaseApp{
+    std::pair<double,double> start_coord_x;
+    std::pair<double,double> start_coord_y;
+
+    std::pair<double,double> leader_coord_x;
+    std::pair<double,double> leader_coord_y;
     enum GameState {
         START_SCREEN,
         IN_PROGRESS,
@@ -12,12 +17,14 @@ class pacmanGame : public ofBaseApp{
         FINISHED
     };
     
-    GameState current_state = IN_PROGRESS;
+    GameState current_state = START_SCREEN;
     ofSoundPlayer pacmanSiren;
     ofSoundPlayer wakaWaka;
     Maze maze;
     Pacman pacman;
+    void setUpSounds();
     void updatePacman();
+    void drawStartScreen();
     void drawPauseScreen();
     void drawGameState();
     void adjustPacmanSound();
