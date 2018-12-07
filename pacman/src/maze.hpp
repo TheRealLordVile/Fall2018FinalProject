@@ -20,6 +20,7 @@ public:
         COIN = 2,
         PACMAN = 3
     };
+    
     Maze();
     void updateLayout(int col, int row, mazeElement new_value);
     ofImage getCoinSprite();
@@ -28,7 +29,11 @@ public:
     int getMazeHeight();
     int getMazeWidth();
     std::pair<int,int> canPacmanMove(int pacman_direction, std::pair<int,int> pos);
+    int getNumberOfCoins();
 private:
+    void checkCollision(int x, int y);
+    int init_num_coins;
+    int current_num_coins;
     ofImage background;
     ofImage coin_sprite;
     std::vector<std::vector<mazeElement>> layout;

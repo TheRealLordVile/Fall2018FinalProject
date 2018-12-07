@@ -48,6 +48,7 @@ ofImage Pacman::getPacmanSprite() {
             to_be_returned.rotate90(2);
             break;
     }
+    
     return to_be_returned;
 }
 

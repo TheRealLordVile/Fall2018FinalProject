@@ -9,7 +9,6 @@
 Maze::Maze(){
     background.load("../../images/background.png");
     coin_sprite.load("../../images/coin.png");
-
     layout  =
     {{WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL},
     {WALL,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,WALL,WALL,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,WALL},
@@ -40,6 +39,16 @@ Maze::Maze(){
     {WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL},
     {WALL,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,WALL},
     {WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL}};
+    init_num_coins = 0;
+    for (std::vector<mazeElement> row:layout) {
+        for (mazeElement e : row) {
+            if (e == COIN) {
+                init_num_coins++;
+            }
+        }
+    }
+    
+    current_num_coins = init_num_coins;
 }
 
 void Maze::updateLayout(int col, int row, mazeElement new_value) {
@@ -75,6 +84,7 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
             }
             
             if (layout[x-1][y] != WALL) {
+                checkCollision(x-1,y);
                 layout[x][y] = EMPTY;
                 layout[x-1][y] = PACMAN;
                 return std::make_pair(x-1, y);
@@ -82,10 +92,11 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
             break;
         case 2:
             if (x == layout[0].size()+1) {
-                return std::make_pair(x,y);
+                return pos;
             }
             
             if (layout[x+1][y] != WALL) {
+                checkCollision(x+1,y);
                 layout[x][y] = EMPTY;
                 layout[x+1][y] = PACMAN;
                 return std::make_pair(x+1,y);
@@ -99,6 +110,7 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
                 return std::make_pair(x, layout[0].size()-1);
             }
             if (layout[x][y-1] != WALL) {
+                checkCollision(x,y-1);
                 layout[x][y] = EMPTY;
                 layout[x][y-1] = PACMAN;
                 return std::make_pair(x,y-1);
@@ -106,12 +118,14 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
     
             break;
         case 4:
-            if(x == 14 && y == layout[0].size()-1){
+            if(x == 14 && y == layout[0].size()-1) {
                 layout[x][y] = EMPTY;
                 layout[x][0] = PACMAN;
-                return std::make_pair(x,0);            }
+                return std::make_pair(x,0);
+            }
             
             if (layout[x][y+1] != WALL) {
+                checkCollision(x,y+1);
                 layout[x][y] = EMPTY;
                 layout[x][y+1] = PACMAN;
                 return std::make_pair(x,y+1);
@@ -119,4 +133,19 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
     }
     
     return pos;
+}
+
+void Maze::checkCollision(int x, int y) {
+    mazeElement element = layout[x][y];
+    switch (element) {
+        case EMPTY:
+            break;
+        case COIN:
+            current_num_coins--;
+            break;
+    }
+}
+
+int Maze::getNumberOfCoins() {
+    return init_num_coins - current_num_coins;
 }

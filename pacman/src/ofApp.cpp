@@ -8,21 +8,25 @@ void pacmanGame::setup() {
 }
 
 void pacmanGame::setUpSounds() {
-    pacmanSiren.load("../../sounds/Siren.mp3");
-    pacmanSiren.setVolume(0.6);
-    wakaWaka.load("../../sounds/PacmanWakaWaka.wav");
-    wakaWaka.setVolume(0.09);
-    wakaWaka.play();
-    wakaWaka.setLoop(true);
-    pacmanSiren.setLoop(true);
-    pacmanSiren.play();
+    start_song.load("../../sounds/start_song.mp3");
+    start_song.setVolume(0.9);
+    
+    pacman_siren.load("../../sounds/Siren.mp3");
+    pacman_siren.setVolume(0.6);
+    
+    waka_waka.load("../../sounds/PacmanWakaWaka.wav");
+    waka_waka.setVolume(0.09);
+    
+    start_song.setLoop(true);
+    waka_waka.setLoop(true);
+    pacman_siren.setLoop(true);
+    
+    start_song.play();
 }
 
 //--------------------------------------------------------------
 void pacmanGame::update() {
-    if (current_state == START_SCREEN) {
-        
-    }  else if(current_state == IN_PROGRESS) {
+    if(current_state == IN_PROGRESS) {
         updatePacman();
         adjustPacmanSound();
     }
@@ -38,11 +42,11 @@ void pacmanGame::updatePacman() {
 
 void pacmanGame::adjustPacmanSound() {
     if (pacman.getDirection() == Pacman::NONE) {
-        wakaWaka.stop();
+        waka_waka.stop();
     } else {
-        if (wakaWaka.isPlaying() == false) {
-            wakaWaka.play();
-            wakaWaka.setLoop(true);
+        if (waka_waka.isPlaying() == false) {
+            waka_waka.play();
+            waka_waka.setLoop(true);
         }
     }
     
@@ -125,7 +129,7 @@ void pacmanGame::drawGameState() {
 
 void pacmanGame::drawPauseScreen() {
     drawGameState();
-    string pause_message = "Press P to Unpause!";
+    string pause_message = "Press P to Unpause! \n" +std::to_string(maze.getNumberOfCoins());
     ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
     
 }
@@ -136,12 +140,12 @@ void pacmanGame::keyPressed(int key){
     if(upper_key=='P' && (current_state == IN_PROGRESS ||
                           current_state == PAUSED)){
         current_state = (current_state == IN_PROGRESS) ? PAUSED : IN_PROGRESS;
-        if(pacmanSiren.isPlaying()) {
-            pacmanSiren.stop();
-            wakaWaka.stop();
+        if(pacman_siren.isPlaying()) {
+            pacman_siren.stop();
+            waka_waka.stop();
         } else {
-            pacmanSiren.play();
-            pacmanSiren.setLoop(true);
+            pacman_siren.play();
+            pacman_siren.setLoop(true);
         }
     }
     
@@ -192,6 +196,9 @@ void pacmanGame::mousePressed(int x, int y, int button){
 
     if (is_start_x && is_start_y) {
         current_state = IN_PROGRESS;
+        start_song.stop();
+        pacman_siren.play();
+        waka_waka.play();
     }
 }
 

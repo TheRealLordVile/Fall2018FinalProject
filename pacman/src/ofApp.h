@@ -18,8 +18,9 @@ class pacmanGame : public ofBaseApp{
     };
     
     GameState current_state = START_SCREEN;
-    ofSoundPlayer pacmanSiren;
-    ofSoundPlayer wakaWaka;
+    ofSoundPlayer start_song;
+    ofSoundPlayer pacman_siren;
+    ofSoundPlayer waka_waka;
     Maze maze;
     Pacman pacman;
     void setUpSounds();
