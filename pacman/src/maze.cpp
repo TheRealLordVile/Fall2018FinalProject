@@ -49,6 +49,7 @@ Maze::Maze(){
     }
     
     current_num_coins = init_num_coins;
+    pacman_alive = true;
 }
 
 void Maze::updateLayout(int col, int row, mazeElement new_value) {
@@ -148,4 +149,12 @@ void Maze::checkCollision(int x, int y) {
 
 int Maze::getNumberOfCoins() {
     return init_num_coins - current_num_coins;
+}
+
+bool Maze::areAllCoinsEaten() {
+    return current_num_coins == 0;
+}
+
+bool Maze::isPacmanAlive() {
+    
 }

@@ -27,6 +27,10 @@ void pacmanGame::setUpSounds() {
 //--------------------------------------------------------------
 void pacmanGame::update() {
     if(current_state == IN_PROGRESS) {
+        if(maze.areAllCoinsEaten()) {
+            current_state = FINISHED;
+        }
+        
         updatePacman();
         adjustPacmanSound();
     }
