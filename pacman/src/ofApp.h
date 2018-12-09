@@ -19,6 +19,9 @@ class pacmanGame : public ofBaseApp{
         FINISHED
     };
     
+    ofRectangle start_var;
+    ofRectangle leaderboard_var;
+    
     GameState current_state = START_SCREEN;
     ofSoundPlayer start_song;
     ofSoundPlayer pacman_siren;
@@ -41,6 +44,7 @@ class pacmanGame : public ofBaseApp{
     void drawGameState();
     void adjustPacmanSound();
 public:
+    
     void setup();
     void update();
     void draw();

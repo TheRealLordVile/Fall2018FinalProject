@@ -27,7 +27,7 @@ void pacmanGame::setUpSounds() {
 //--------------------------------------------------------------
 void pacmanGame::update() {
     if(current_state == IN_PROGRESS) {
-        if(maze.areAllCoinsEaten() || pacman.num_lives <= 0) {
+        if(maze.areAllCoinsEaten() || pacman.num_lives == -1) {
             current_state = FINISHED;
         }
         updatePacman();
@@ -52,7 +52,7 @@ void pacmanGame::updatePacman() {
 
 void pacmanGame::updateGhosts() {
     updateGhost1();
-    //updateGhost2();
+    updateGhost2();
     //updateGhost3();
 }
 
@@ -115,23 +115,21 @@ void pacmanGame::drawStartScreen(){
     ofImage start_screen_1;
     start_screen_1.load("../../images/start_screen_1.jpg");
     start_screen_1.draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
-    
+        //rectangle.inside
     ofPath start_rect;
     ofPath leaderboard_rect;
-    start_coord_x.first = ofGetWindowWidth()/2-ofGetWindowWidth()/10;
-    start_coord_x.second = ofGetWindowWidth()/2-ofGetWindowWidth()/10 + ofGetWindowWidth()/5;
-    start_coord_y.first = 3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40;
-    start_coord_y.second = 3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40 +ofGetWindowHeight()/20;
-    ofRectangle start(start_coord_x.first, start_coord_y.first,
+    ofRectangle start( ofGetWindowWidth()/2-ofGetWindowWidth()/10,
+                      3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40,
                       ofGetWindowWidth()/5, ofGetWindowHeight()/20);
-    //rectangle.inside
-    leader_coord_x.first = ofGetWindowWidth()/2-ofGetWindowWidth()/10;
-    leader_coord_x.second = ofGetWindowWidth()/2-ofGetWindowWidth()/10 + ofGetWindowWidth()/5;
-    leader_coord_y.first = 3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40+ofGetWindowHeight()/10;
-    leader_coord_y.second =3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40+ofGetWindowHeight()/10+ ofGetWindowHeight()/20;
+
     
-    ofRectangle leaderboard(leader_coord_x.first, leader_coord_y.first,
+    ofRectangle leaderboard( ofGetWindowWidth()/2-ofGetWindowWidth()/10,
+                            3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40+ofGetWindowHeight()/10,
                             ofGetWindowWidth()/5, ofGetWindowHeight()/20);
+    
+    start_var = start;
+    leaderboard_var = leaderboard;
+    
     leaderboard_rect.rectangle(leaderboard);
     leaderboard_rect.setColor(ofColor(25,25,112));
     leaderboard_rect.setFilled(true);
@@ -243,15 +241,18 @@ void pacmanGame::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void pacmanGame::mousePressed(int x, int y, int button){
-    bool is_start_x = x <= start_coord_x.second && start_coord_x.first <=x;
-    bool is_start_y = y <= start_coord_y.second && start_coord_y.first <=y;
-
-    if (is_start_x && is_start_y) {
-        current_state = IN_PROGRESS;
-        start_song.stop();
-        pacman_siren.play();
-        waka_waka.play();
+    if (current_state == START_SCREEN) {
+        if (start_var.inside(x, y)) {
+            current_state = IN_PROGRESS;
+            start_song.stop();
+            pacman_siren.play();
+            waka_waka.play();
+            
+        } else if (leaderboard_var.inside(x, y)) {
+            
+        }
     }
+    
 }
 
 //--------------------------------------------------------------

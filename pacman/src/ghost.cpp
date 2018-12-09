@@ -12,10 +12,14 @@ Ghost::Ghost(int type) {
         case 1:
             ghost_sprite.load("../../images/ghost_1.png");
             direction = LEFT;
+            pos.first = 14;
+            pos.second = 9;
             break;
         case 2:
             ghost_sprite.load("../../images/ghost_2.png");
             direction = LEFT;
+            pos.first = 11;
+            pos.second = 17;
             break;
         case 3:
             ghost_sprite.load("../../images/ghost_3.png");

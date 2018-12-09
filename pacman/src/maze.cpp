@@ -20,14 +20,14 @@ Maze::Maze() {
     {WALL,COIN,WALL,WALL,WALL,WALL,COIN,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,COIN,WALL,WALL,WALL,WALL,COIN,WALL},
     {WALL,COIN,COIN,COIN,COIN,COIN,COIN,WALL,WALL,COIN,COIN,COIN,COIN,WALL,WALL,COIN,COIN,COIN,COIN,WALL,WALL,COIN,COIN,COIN,COIN,COIN,COIN,WALL},
     {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
-    {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,EMPTY,WALL,WALL,EMPTY,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
-    {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,GHOST3,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
+{WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,EMPTY,WALL,WALL,EMPTY,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
+    {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,GHOST2,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
     {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
     {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
-    {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,COIN,EMPTY,EMPTY,EMPTY,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,EMPTY,EMPTY,EMPTY,COIN,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
+    {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,COIN,EMPTY,EMPTY,GHOST1,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,EMPTY,EMPTY,EMPTY,COIN,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
     {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
     {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
-    {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,EMPTY,EMPTY,GHOST2,EMPTY,PACMAN,EMPTY,EMPTY,EMPTY,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
+    {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,PACMAN,EMPTY,EMPTY,EMPTY,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
     {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
     {WALL,WALL,WALL,WALL,WALL,WALL,COIN,WALL,WALL,EMPTY,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,EMPTY,WALL,WALL,COIN,WALL,WALL,WALL,WALL,WALL,WALL},
     {WALL,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,WALL,WALL,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,COIN,WALL},
@@ -81,6 +81,13 @@ ofImage Maze::getBackground() {
 std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int> pos) {
     int x = pos.first;
     int y = pos.second;
+    
+    if (!pacman_alive) {
+        layout[x][y] = EMPTY;
+        layout[17][14] = PACMAN;
+        return std::make_pair(17, 14);
+    }
+    
     switch (pacman_direction) {
         case 1:
             if (x == 0) {
@@ -209,10 +216,13 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
     
     int x = pos.first;
     int y = pos.second;
-    
+    bool ghosts_collide;
     switch (ghost_direction) {
         case 0:
-            if (x == 0) {
+            ghosts_collide = layout[x-1][y] == GHOST1 ||
+                             layout[x-1][y] == GHOST2 ||
+                             layout[x-1][y] == GHOST3;
+            if (x == 0 || ghosts_collide) {
                 return pos;
             }
             
@@ -227,9 +237,15 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
                 layout[x-1][y] = ghost;
                 return std::make_pair(x-1, y);
             }
+            
             break;
+            
         case 1:
-            if (x == layout[0].size() - 1) {
+            ghosts_collide = layout[x+1][y] == GHOST1 ||
+                             layout[x+1][y] == GHOST2 ||
+                             layout[x+1][y] == GHOST3;
+            
+            if (x >= layout.size() - 2 || ghosts_collide) {
                 return pos;
             }
             
@@ -246,9 +262,13 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             
             break;
         case 2:
-            if (y==0) {
+            ghosts_collide = layout[x][y-1] == GHOST1 ||
+                             layout[x][y-1] == GHOST2 ||
+                             layout[x][y-1] == GHOST3;
+            if (y == 0 || ghosts_collide) {
                 return pos;
             }
+            
             if (layout[x][y-1] != WALL) {
                 if (layout[x][y-1] == PACMAN){
                     pacman_alive = false;
@@ -262,8 +282,10 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             
             break;
         case 3:
-            
-            if (y == layout.size()-2s){
+            ghosts_collide = layout[x][y+1] == GHOST1 ||
+                             layout[x][y+1] == GHOST2 ||
+                             layout[x][y+1] == GHOST3;
+            if (y == layout[0].size()-2 || ghosts_collide) {
                 return pos;
             }
             
@@ -279,6 +301,7 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
                 return std::make_pair(x,y+1);
             }
     }
+    return pos;
     
 }
 

@@ -20,6 +20,7 @@ public:
         LEFT = 2,
         RIGHT = 3
     };
+    
     ofImage getGhostSprite();
     ghostDirection getDirection();
     void setDirection(int new_direct);
