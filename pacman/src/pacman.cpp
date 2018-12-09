@@ -8,8 +8,8 @@
 #include "pacman.hpp"
 
 Pacman::Pacman() {
-    pos.first=17;
-    pos.second=14;
+    pos.first = 17;
+    pos.second = 14;
     num_lives = 3;
     num_points = 0;
     anim_count = 0;
@@ -30,6 +30,7 @@ ofImage Pacman::getPacmanSprite() {
             to_be_returned = pacman_sprite_3;
             break;
     }
+    
     if (anim_count == 2) {
         anim_count = 0;
     
@@ -52,7 +53,7 @@ ofImage Pacman::getPacmanSprite() {
     return to_be_returned;
 }
 
-void Pacman::increasePoints (int increase_amount){
+void Pacman::increasePoints (int increase_amount) {
     num_points += increase_amount;
 }
 

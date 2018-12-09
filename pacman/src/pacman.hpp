@@ -27,7 +27,6 @@ public:
     void increasePoints(int increase_amount);
     int getNumberOfPoints();
     Direction getDirection();
-    void updatePos();
     void setDirection(Direction new_dir);
 private:
     Direction direction_moving;

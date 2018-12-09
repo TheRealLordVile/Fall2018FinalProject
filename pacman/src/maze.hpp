@@ -18,7 +18,10 @@ public:
         EMPTY = 0,
         WALL = 1,
         COIN = 2,
-        PACMAN = 3
+        PACMAN = 3,
+        GHOST1 = 4,
+        GHOST2 = 5,
+        GHOST3 = 6
     };
     Maze();
     void updateLayout(int col, int row, mazeElement new_value);
@@ -28,6 +31,7 @@ public:
     int getMazeHeight();
     int getMazeWidth();
     std::pair<int,int> canPacmanMove(int pacman_direction, std::pair<int,int> pos);
+    std::pair<int,int> canGhostMove(int ghostType, int direction, std::pair<int,int> pos);
     int getNumberOfCoins();
     bool areAllCoinsEaten();
     bool isPacmanAlive();

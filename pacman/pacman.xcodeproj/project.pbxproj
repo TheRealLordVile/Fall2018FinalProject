@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D0FBA50E0A92836A10F888FE /* pacman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B232702DBC96BAF47DF99B0 /* pacman.cpp */; };
+		DBBE6B4121BC8C6200344B54 /* ghost.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBBE6B3F21BC8C6200344B54 /* ghost.cpp */; };
 		DBED0C0F21B794D7000C163B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBED0C0E21B794D7000C163B /* main.cpp */; };
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
 		FE782326A9FD06260EA5ED46 /* maze.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A84FFF0E053DE909E995CB98 /* maze.cpp */; };
@@ -30,6 +31,8 @@
 		5448A3FF6658A854E4045CA6 /* pacman.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = pacman.hpp; path = src/pacman.hpp; sourceTree = SOURCE_ROOT; };
 		A84FFF0E053DE909E995CB98 /* maze.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = maze.cpp; path = src/maze.cpp; sourceTree = SOURCE_ROOT; };
 		BA0A451377E9F8A91543084B /* maze.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = maze.hpp; path = src/maze.hpp; sourceTree = SOURCE_ROOT; };
+		DBBE6B3F21BC8C6200344B54 /* ghost.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ghost.cpp; sourceTree = "<group>"; };
+		DBBE6B4021BC8C6200344B54 /* ghost.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ghost.hpp; sourceTree = "<group>"; };
 		DBED0C0E21B794D7000C163B /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E42962AC2163EDD300A6A9E2 /* ofCamera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ofCamera.cpp; path = ../../../Downloads/of_v0.10.1_osx_release/libs/openFrameworks/3d/ofCamera.cpp; sourceTree = SOURCE_ROOT; };
 		E42962AD2163EDD300A6A9E2 /* ofMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofMesh.h; path = ../../../Downloads/of_v0.10.1_osx_release/libs/openFrameworks/3d/ofMesh.h; sourceTree = SOURCE_ROOT; };
@@ -541,6 +544,8 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				2B232702DBC96BAF47DF99B0 /* pacman.cpp */,
 				A84FFF0E053DE909E995CB98 /* maze.cpp */,
+				DBBE6B3F21BC8C6200344B54 /* ghost.cpp */,
+				DBBE6B4021BC8C6200344B54 /* ghost.hpp */,
 				BA0A451377E9F8A91543084B /* maze.hpp */,
 				5448A3FF6658A854E4045CA6 /* pacman.hpp */,
 			);
@@ -649,6 +654,7 @@
 				D0FBA50E0A92836A10F888FE /* pacman.cpp in Sources */,
 				DBED0C0F21B794D7000C163B /* main.cpp in Sources */,
 				FE782326A9FD06260EA5ED46 /* maze.cpp in Sources */,
+				DBBE6B4121BC8C6200344B54 /* ghost.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

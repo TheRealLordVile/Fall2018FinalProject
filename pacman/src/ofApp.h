@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "maze.hpp"
 #include "pacman.hpp"
+#include "ghost.hpp"
 
 class pacmanGame : public ofBaseApp{
     std::pair<double,double> start_coord_x;
@@ -23,8 +24,17 @@ class pacmanGame : public ofBaseApp{
     ofSoundPlayer waka_waka;
     Maze maze;
     Pacman pacman;
+    Ghost ghost_1{1};
+    Ghost ghost_2{2};
+    Ghost ghost_3{3};
+
     void setUpSounds();
     void updatePacman();
+    void updateGhosts();
+    void updateGhost1();
+    void updateGhost2();
+    void updateGhost3();
+
     void drawStartScreen();
     void drawPauseScreen();
     void drawGameState();

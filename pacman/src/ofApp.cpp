@@ -30,18 +30,39 @@ void pacmanGame::update() {
         if(maze.areAllCoinsEaten()) {
             current_state = FINISHED;
         }
-        
         updatePacman();
+        updateGhosts();
+        
         adjustPacmanSound();
     }
 }
 
 void pacmanGame::updatePacman() {
-    std::pair<int,int> new_pos = maze.canPacmanMove(pacman.getDirection(),pacman.pos);
-    if(new_pos == pacman.pos){
+    std::pair<int,int> new_pos = maze.canPacmanMove(pacman.getDirection(),
+                                                    pacman.pos);
+    if(new_pos == pacman.pos) {
         pacman.setDirection(Pacman::NONE);
     }
+    
     pacman.pos = new_pos;
+}
+
+void pacmanGame::updateGhosts() {
+    updateGhost1();
+    updateGhost2();
+    updateGhost3();
+}
+
+void pacmanGame::updateGhost1() {
+    
+}
+
+void pacmanGame::updateGhost2() {
+    
+}
+
+void pacmanGame::updateGhost3() {
+    
 }
 
 void pacmanGame::adjustPacmanSound() {
@@ -82,6 +103,7 @@ void pacmanGame::drawStartScreen(){
     start_coord_y.second = 3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40 +ofGetWindowHeight()/20;
     ofRectangle start(start_coord_x.first, start_coord_y.first,
                       ofGetWindowWidth()/5, ofGetWindowHeight()/20);
+    //rectangle.inside
     leader_coord_x.first = ofGetWindowWidth()/2-ofGetWindowWidth()/10;
     leader_coord_x.second = ofGetWindowWidth()/2-ofGetWindowWidth()/10 + ofGetWindowWidth()/5;
     leader_coord_y.first = 3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40+ofGetWindowHeight()/10;
@@ -110,22 +132,27 @@ void pacmanGame::drawGameState() {
     int width = maze.getMazeWidth();
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            if (maze.getElementAt(i,j) == Maze::mazeElement::COIN){
+            double x_loc = j * ofGetWindowWidth()/width-ofGetWindowWidth()/
+            width / 3;
+            double y_loc = i * ofGetWindowHeight()/height -
+            ofGetWindowHeight() /  height / 5;
+            double x_size = 3 * ofGetWindowWidth() / width / 2;
+            double y_size = 4 * ofGetWindowHeight() / height / 3;
+            Maze::mazeElement element = maze.getElementAt(i,j);
+            if (element == Maze::mazeElement::COIN) {
                 maze.getCoinSprite().draw(j * ofGetWindowWidth() / width,
                                           i * ofGetWindowHeight() / height,
                                           ofGetWindowWidth() / width,
                                           ofGetWindowHeight() / height);
                 
-            }
-            else if(maze.getElementAt(i,j) == Maze::mazeElement::PACMAN) {
-                double x_loc = j * ofGetWindowWidth()/width-ofGetWindowWidth()/
-                width / 3;
-                double y_loc = i * ofGetWindowHeight()/height -
-                               ofGetWindowHeight() /  height / 5;
-                double x_size = 3 * ofGetWindowWidth() / width / 2;
-                double y_size = 4 * ofGetWindowHeight() / height / 3;
+            } else if(element == Maze::mazeElement::PACMAN) {
                 pacman.getPacmanSprite().draw(x_loc, y_loc,x_size,y_size);
-                
+            } else if (element == Maze::mazeElement::GHOST1) {
+                ghost_1.getGhostSprite().draw(x_loc, y_loc,x_size,y_size);
+            } else if (element == Maze::mazeElement::GHOST2) {
+                ghost_2.getGhostSprite().draw(x_loc, y_loc,x_size,y_size);
+            } else if (element == Maze::mazeElement::GHOST3) {
+                ghost_3.getGhostSprite().draw(x_loc, y_loc,x_size,y_size);
             }
         }
     }
