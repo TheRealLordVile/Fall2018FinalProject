@@ -33,6 +33,7 @@ class pacmanGame : public ofBaseApp{
     Ghost ghost_3{3};
 
     void setUpSounds();
+    void setUpPositions();
     void updatePacman();
     void updateGhosts();
     void updateGhost1();

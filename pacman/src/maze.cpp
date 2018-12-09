@@ -59,6 +59,45 @@ void Maze::updateLayout(int col, int row, mazeElement new_value) {
     layout[col][row] = new_value;
 }
 
+std::pair<int,int> Maze::getInitPacmanPosition() {
+    for (int x = 0; x<layout.size(); x++) {
+        for (int y = 0; y<layout[0].size(); y++) {
+            if (layout[x][y] == PACMAN) {
+                return std::make_pair(x, y);
+                
+            }
+        }
+    }
+}
+
+std::pair<int,int> Maze::getInitGhostPosition(int ghost_type) {
+    
+    mazeElement ghost;
+    
+    switch (ghost_type) {
+        case 1:
+            ghost = GHOST1;
+            break;
+        case 2:
+            ghost = GHOST2;
+            break;
+        case 3:
+            ghost = GHOST3;
+            break;
+        case 4:
+            break;
+    }
+    
+    for (int x = 0; x<layout.size(); x++) {
+        for (int y = 0; y<layout[0].size(); y++) {
+            if (layout[x][y] == ghost) {
+                return std::make_pair(x, y);
+                
+            }
+        }
+    }
+}
+
 ofImage Maze::getCoinSprite() {
     return coin_sprite;
 }
@@ -298,9 +337,10 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
                 }
                 
                 layout[x][y+1] = ghost;
-                return std::make_pair(x,y+1);
+                return std::make_pair(x, y+1);
             }
     }
+    
     return pos;
     
 }

@@ -3,8 +3,17 @@
 //--------------------------------------------------------------
 void pacmanGame::setup() {
     ofSetFrameRate(7);
-    setUpSounds();
     srand(static_cast<unsigned>(time(0)));
+    setUpSounds();
+    setUpPositions();
+}
+
+void pacmanGame::setUpPositions() {
+    pacman.pos = maze.getInitPacmanPosition();
+    ghost_1.pos = maze.getInitGhostPosition(1);
+    ghost_2.pos = maze.getInitGhostPosition(2);
+    ghost_3.pos = maze.getInitGhostPosition(3);
+
 }
 
 void pacmanGame::setUpSounds() {

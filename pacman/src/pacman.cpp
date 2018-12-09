@@ -8,8 +8,6 @@
 #include "pacman.hpp"
 
 Pacman::Pacman() {
-    pos.first = 17;
-    pos.second = 14;
     num_lives = 3;
     num_points = 0;
     anim_count = 0;
