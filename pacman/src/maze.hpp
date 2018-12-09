@@ -31,7 +31,7 @@ public:
     int getMazeHeight();
     int getMazeWidth();
     std::pair<int,int> canPacmanMove(int pacman_direction, std::pair<int,int> pos);
-    std::pair<int,int> canGhostMove(int ghostType, int direction, std::pair<int,int> pos);
+    std::pair<int,int> canGhostMove(int ghost_type, int ghost_direction, std::pair<int,int> pos);
     int getNumberOfCoins();
     bool areAllCoinsEaten();
     bool isPacmanAlive();

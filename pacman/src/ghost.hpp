@@ -15,14 +15,14 @@ public:
     std::pair<int,int> pos;
     
     enum ghostDirection {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
+        UP = 0,
+        DOWN = 1,
+        LEFT = 2,
+        RIGHT = 3
     };
     ofImage getGhostSprite();
     ghostDirection getDirection();
-    void setDirection(ghostDirection new_direct);
+    void setDirection(int new_direct);
 private:
     ofImage ghost_sprite;
     ghostDirection direction;

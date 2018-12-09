@@ -34,11 +34,14 @@ ofImage Pacman::getPacmanSprite() {
     if (anim_count == 2) {
         anim_count = 0;
     
-    } else{
+    } else {
         anim_count++;
     }
     
     switch (direction_moving) {
+        case NONE:
+            to_be_returned = last_sprite;
+            break;
         case UP:
             to_be_returned.rotate90(3);
             break;
@@ -50,6 +53,7 @@ ofImage Pacman::getPacmanSprite() {
             break;
     }
     
+    last_sprite = to_be_returned;
     return to_be_returned;
 }
 

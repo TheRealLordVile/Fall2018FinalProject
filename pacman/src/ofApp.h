@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "maze.hpp"
+#include <cstdlib>
 #include "pacman.hpp"
 #include "ghost.hpp"
 

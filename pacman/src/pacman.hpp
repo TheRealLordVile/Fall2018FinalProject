@@ -13,6 +13,7 @@
 
 class Pacman {
 public:
+    int num_lives;
     std::pair<int,int> pos;
     enum Direction {
         NONE,
@@ -32,7 +33,7 @@ private:
     Direction direction_moving;
     int num_points;
     int anim_count;
-    int num_lives;
+    ofImage last_sprite;
     ofImage pacman_sprite_1;
     ofImage pacman_sprite_2;
     ofImage pacman_sprite_3;

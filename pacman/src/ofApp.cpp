@@ -27,7 +27,7 @@ void pacmanGame::setUpSounds() {
 //--------------------------------------------------------------
 void pacmanGame::update() {
     if(current_state == IN_PROGRESS) {
-        if(maze.areAllCoinsEaten()) {
+        if(maze.areAllCoinsEaten() || pacman.num_lives <= 0) {
             current_state = FINISHED;
         }
         updatePacman();
@@ -43,26 +43,47 @@ void pacmanGame::updatePacman() {
     if(new_pos == pacman.pos) {
         pacman.setDirection(Pacman::NONE);
     }
+    if (!maze.isPacmanAlive()) {
+        pacman.num_lives--;
+    }
     
     pacman.pos = new_pos;
 }
 
 void pacmanGame::updateGhosts() {
     updateGhost1();
-    updateGhost2();
-    updateGhost3();
+    //updateGhost2();
+    //updateGhost3();
 }
 
 void pacmanGame::updateGhost1() {
+    std::pair<int,int> new_pos = maze.canGhostMove(1, ghost_1.getDirection(), ghost_1.pos);
     
+    if (new_pos == ghost_1.pos) {
+        ghost_1.setDirection(std::rand() % 4);
+    } else {
+        ghost_1.pos = new_pos;
+    }
+    
+
 }
 
 void pacmanGame::updateGhost2() {
-    
+    std::pair<int,int> new_pos = maze.canGhostMove(2, ghost_2.getDirection(), ghost_2.pos);
+    if (new_pos == ghost_2.pos) {
+        ghost_2.setDirection(std::rand() % 4);
+    } else {
+        ghost_2.pos = new_pos;
+    }
 }
 
 void pacmanGame::updateGhost3() {
-    
+   std::pair<int,int> new_pos = maze.canGhostMove(3, ghost_3.getDirection(), ghost_3.pos);
+    if (new_pos == ghost_3.pos) {
+        ghost_3.setDirection(std::rand() % 4);
+    } else {
+        ghost_3.pos = new_pos;
+    }
 }
 
 void pacmanGame::adjustPacmanSound() {

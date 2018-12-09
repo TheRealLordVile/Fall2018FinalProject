@@ -15,11 +15,11 @@ Ghost::Ghost(int type) {
             break;
         case 2:
             ghost_sprite.load("../../images/ghost_2.png");
-            direction = RIGHT;
+            direction = LEFT;
             break;
         case 3:
             ghost_sprite.load("../../images/ghost_3.png");
-            direction = UP;
+            direction = LEFT;
             break;
     }
 }
@@ -28,8 +28,8 @@ ofImage Ghost::getGhostSprite() {
     return ghost_sprite;
 }
 
-void Ghost::setDirection(ghostDirection new_direct) {
-    direction = new_direct;
+void Ghost::setDirection(int new_direct) {
+    direction = (ghostDirection)new_direct;
 }
 
 Ghost::ghostDirection Ghost::getDirection() {
