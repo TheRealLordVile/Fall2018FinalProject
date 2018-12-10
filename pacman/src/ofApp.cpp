@@ -62,7 +62,7 @@ void pacmanGame::updatePacman() {
 void pacmanGame::updateGhosts() {
     updateGhost1();
     updateGhost2();
-    //updateGhost3();
+    updateGhost3();
 }
 
 void pacmanGame::updateGhost1() {

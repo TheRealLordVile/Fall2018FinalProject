@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <vector>
 #include <ofMain.h>
-
+#include <nlohmann/json.hpp>
 class Maze {
 public:
     enum mazeElement{
@@ -23,6 +23,7 @@ public:
         GHOST2 = 5,
         GHOST3 = 6
     };
+    
     Maze();
     void updateLayout(int col, int row, mazeElement new_value);
     ofImage getCoinSprite();
@@ -39,6 +40,8 @@ public:
     bool areAllCoinsEaten();
     bool isPacmanAlive();
 private:
+    void setUpLayout();
+    void setUpNumCoins();
     bool pacman_alive;
     void checkCollision(int x, int y);
     int init_num_coins;
