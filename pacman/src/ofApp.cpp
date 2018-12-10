@@ -2,7 +2,6 @@
 
 //--------------------------------------------------------------
 void pacmanGame::setup() {
-    ofSetFrameRate(7);
     srand(static_cast<unsigned>(time(0)));
     setUpSounds();
     setUpPositions();
@@ -37,7 +36,7 @@ void pacmanGame::setUpSounds() {
 void pacmanGame::update() {
     if(current_state == IN_PROGRESS) {
         if(maze.areAllCoinsEaten() || pacman.num_lives == -1) {
-            current_state = FINISHED;
+            current_state = ENDING_SCREEN;
         }
         updatePacman();
         updateGhosts();
@@ -67,9 +66,9 @@ void pacmanGame::updateGhosts() {
 
 void pacmanGame::updateGhost1() {
     std::pair<int,int> new_pos = maze.canGhostMove(1, ghost_1.getDirection(), ghost_1.pos);
-    
     if (new_pos == ghost_1.pos) {
         ghost_1.setDirection(std::rand() % 4);
+    
     } else {
         ghost_1.pos = new_pos;
     }
@@ -81,8 +80,10 @@ void pacmanGame::updateGhost2() {
     std::pair<int,int> new_pos = maze.canGhostMove(2, ghost_2.getDirection(), ghost_2.pos);
     if (new_pos == ghost_2.pos) {
         ghost_2.setDirection(std::rand() % 4);
+    
     } else {
         ghost_2.pos = new_pos;
+    
     }
 }
 
@@ -90,6 +91,7 @@ void pacmanGame::updateGhost3() {
    std::pair<int,int> new_pos = maze.canGhostMove(3, ghost_3.getDirection(), ghost_3.pos);
     if (new_pos == ghost_3.pos) {
         ghost_3.setDirection(std::rand() % 4);
+    
     } else {
         ghost_3.pos = new_pos;
     }
@@ -98,6 +100,7 @@ void pacmanGame::updateGhost3() {
 void pacmanGame::adjustPacmanSound() {
     if (pacman.getDirection() == Pacman::NONE) {
         waka_waka.stop();
+    
     } else {
         if (waka_waka.isPlaying() == false) {
             waka_waka.play();
@@ -110,13 +113,17 @@ void pacmanGame::adjustPacmanSound() {
 
 //--------------------------------------------------------------
 void pacmanGame::draw() {
-    
     if (current_state == START_SCREEN) {
         drawStartScreen();
+    
     } else if (current_state == IN_PROGRESS) {
         drawGameState();
-        } else if (current_state == PAUSED) {
+    
+    } else if (current_state == PAUSED) {
         drawPauseScreen();
+        
+    } else if (current_state == ENDING_SCREEN) {
+        drawEndingScreen();
     }
 }
 
@@ -124,16 +131,16 @@ void pacmanGame::drawStartScreen(){
     ofImage start_screen_1;
     start_screen_1.load("../../images/start_screen_1.jpg");
     start_screen_1.draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
-        //rectangle.inside
     ofPath start_rect;
     ofPath leaderboard_rect;
-    ofRectangle start( ofGetWindowWidth()/2-ofGetWindowWidth()/10,
-                      3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40,
-                      ofGetWindowWidth()/5, ofGetWindowHeight()/20);
+    ofRectangle start(ofGetWindowWidth()/2 - ofGetWindowWidth()/10,
+                      3 * ofGetWindowHeight() / 4 - ofGetWindowHeight() / 40,
+                      ofGetWindowWidth() / 5, ofGetWindowHeight() / 20);
 
     
     ofRectangle leaderboard( ofGetWindowWidth()/2-ofGetWindowWidth()/10,
-                            3 * ofGetWindowHeight()/4-ofGetWindowHeight()/40+ofGetWindowHeight()/10,
+                            3 * ofGetWindowHeight() / 4
+                            - ofGetWindowHeight() /40 + ofGetWindowHeight()/10,
                             ofGetWindowWidth()/5, ofGetWindowHeight()/20);
     
     start_var = start;
@@ -150,8 +157,13 @@ void pacmanGame::drawStartScreen(){
     start_rect.draw();
     
     string play_message = "PLAY!";
-    string leaderboard_message = "Leaderboard";
-    ofDrawBitmapString(play_message, ofGetWindowWidth()/2-ofGetWindowWidth()/40, 3 * ofGetWindowHeight()/4+ofGetWindowHeight()/200);
+    string leaderboard_message = "LEADERBOARD";
+    ofDrawBitmapString(play_message, ofGetWindowWidth()/2-ofGetWindowWidth()/40,
+                       3 * ofGetWindowHeight()/4+ofGetWindowHeight()/200);
+    ofDrawBitmapString(leaderboard_message,
+                       ofGetWindowWidth()/2-ofGetWindowWidth()/18,
+                       3 * ofGetWindowHeight() / 4
+                       + ofGetWindowHeight()/10);
 }
 
 void pacmanGame::drawGameState() {
@@ -191,6 +203,18 @@ void pacmanGame::drawPauseScreen() {
     string pause_message = "Press P to Unpause! \n" +std::to_string(maze.getNumberOfCoins());
     ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
     
+}
+
+void pacmanGame::drawEndingScreen() {
+    if (pacman.num_lives == -1) {
+        ofImage ending_background;
+        ending_background.load("../../images/ending_background.jpg");
+        ending_background.draw(0,0, ofGetWindowWidth(), ofGetWindowHeight());
+    
+        ofImage game_over;
+        game_over.load("../../images/game_over.png");
+        game_over.draw(3*ofGetWindowWidth()/5, ofGetWindowHeight()/6,ofGetWindowWidth()/7, ofGetWindowHeight()/7);
+    }
 }
 
 //--------------------------------------------------------------

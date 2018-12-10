@@ -69,6 +69,3 @@ Pacman::Direction Pacman::getDirection() {
 void Pacman::setDirection(Pacman::Direction new_dir) {
     direction_moving = new_dir;
 }
-
-
-

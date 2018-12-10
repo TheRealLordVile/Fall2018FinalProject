@@ -333,4 +333,3 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
     return pos;
     
 }
-

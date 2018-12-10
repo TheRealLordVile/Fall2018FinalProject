@@ -16,7 +16,7 @@ class pacmanGame : public ofBaseApp{
         START_SCREEN,
         IN_PROGRESS,
         PAUSED,
-        FINISHED
+        ENDING_SCREEN
     };
     
     ofRectangle start_var;
@@ -43,6 +43,7 @@ class pacmanGame : public ofBaseApp{
     void drawStartScreen();
     void drawPauseScreen();
     void drawGameState();
+    void drawEndingScreen();
     void adjustPacmanSound();
 public:
     
