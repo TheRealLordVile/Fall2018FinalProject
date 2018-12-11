@@ -99,6 +99,13 @@ void pacmanGame::updateLeaderboard() {
     if (leaderboard.size() > 10) {
         leaderboard.pop_back();
     }
+    
+    ofFile score_file;
+    score_file.open(ofToDataPath("scores.json"), ofFile::ReadWrite, true);
+    nlohmann::json json(leaderboard);
+    score_file << json;
+    score_file.close();
+
 }
 
 void pacmanGame::loadNewLevel() {
@@ -228,7 +235,7 @@ void pacmanGame::draw() {
         drawPauseScreen();
         
     } else if(current_state == LEADERBOARD) {
-        //drawLeaderboard();
+        drawLeaderboard();
         
     } else if (current_state == ENDING_SCREEN) {
         ofSoundStopAll();
@@ -317,6 +324,14 @@ void pacmanGame::drawPauseScreen() {
     string pause_message = "Press P to Unpause! \n" +std::to_string(maze.getNumberOfCoins());
     ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
     
+}
+
+void pacmanGame::drawLeaderboard() {
+    string pause_message = "";
+    for (int i: leaderboard) {
+        pause_message += std::to_string(i) + "\n";
+    }
+    ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
 }
 
 void pacmanGame::drawEndingScreen() {

@@ -53,6 +53,7 @@ class pacmanGame : public ofBaseApp{
     void drawStartScreen();
     void drawPauseScreen();
     void drawGameState();
+    void drawLeaderboard();
     void drawEndingScreen();
     void adjustPacmanSound();
 public:
