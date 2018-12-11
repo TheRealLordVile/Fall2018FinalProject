@@ -7,23 +7,25 @@
 
 #include "ghost.hpp"
 Ghost::Ghost(int type) {
+    std::string img_path;
     switch (type) {
         case 1:
-            ghost_sprite.load("../../images/ghost_1.png");
+            img_path = "../../images/ghost_1.png";
             break;
         case 2:
-            ghost_sprite.load("../../images/ghost_2.png");
+            img_path = "../../images/ghost_2.png";
             break;
         case 3:
-            ghost_sprite.load("../../images/ghost_3.png");
+            img_path = "../../images/ghost_3.png";
             break;
         case 4:
-            ghost_sprite.load("../../images/ghost_4.png");
+            img_path = "../../images/ghost_4.png";
             break;
         case 5:
-            ghost_sprite.load("../../images/ghost_5.png");
+            img_path = "../../images/ghost_5.png";
     }
-    
+
+    ghost_sprite.load(img_path);
     direction = LEFT;
 }
 

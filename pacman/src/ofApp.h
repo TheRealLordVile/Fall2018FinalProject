@@ -11,6 +11,7 @@ class pacmanGame : public ofBaseApp{
         START_SCREEN,
         IN_PROGRESS,
         PAUSED,
+        LEADERBOARD,
         ENDING_SCREEN
     };
     
@@ -18,11 +19,16 @@ class pacmanGame : public ofBaseApp{
     ofRectangle leaderboard_var;
     int level_num;
     GameState current_state;
+    
     ofSoundPlayer start_song;
     ofSoundPlayer pacman_siren;
     ofSoundPlayer waka_waka;
+    ofSoundPlayer pacman_dying;
+    ofSoundPlayer paused_sound;
+    ofSoundPlayer ending_song;
     Maze maze{1};
     Pacman pacman;
+    
     Ghost ghost_1{1};
     Ghost ghost_2{2};
     Ghost ghost_3{3};

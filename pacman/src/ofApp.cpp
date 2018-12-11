@@ -7,6 +7,7 @@ void pacmanGame::setup() {
     current_state = START_SCREEN;
     setUpSounds();
     setUpPositions();
+    //setUpLeaderboardValues();
 }
 
 void pacmanGame::setUpPositions() {
@@ -27,23 +28,36 @@ void pacmanGame::setUpPositions() {
 void pacmanGame::setUpSounds() {
     start_song.load("../../sounds/start_song.mp3");
     start_song.setVolume(0.9);
-    
+    start_song.setLoop(true);
+
     pacman_siren.load("../../sounds/Siren.mp3");
     pacman_siren.setVolume(0.6);
-    
+    pacman_siren.setLoop(true);
+
     waka_waka.load("../../sounds/PacmanWakaWaka.wav");
     waka_waka.setVolume(0.09);
-    
-    start_song.setLoop(true);
     waka_waka.setLoop(true);
-    pacman_siren.setLoop(true);
+
     
-    start_song.play();
+    pacman_dying.load("../../sounds/pacman_dies_sound.mp3");
+    
+    paused_sound.load("../../sounds/pacman_intermission.mp3");
+    paused_sound.setLoop(true);
+    
+    ending_song.load("");
+    ending_song.setLoop(true);
+    
 }
 
 //--------------------------------------------------------------
 void pacmanGame::update() {
-    if(current_state == IN_PROGRESS) {
+    if (current_state == START_SCREEN) {
+        if(!start_song.isPlaying()) {
+            ofSoundStopAll();
+            start_song.play();
+        }
+        
+    } else if (current_state == IN_PROGRESS) {
         if(maze.areAllCoinsEaten()) {
             level_num++;
             loadNewLevel();
@@ -53,12 +67,20 @@ void pacmanGame::update() {
             current_state = ENDING_SCREEN;
         }
         
+        adjustPacmanSound();
         updatePacman();
         updateGhosts();
+    } else if(current_state == PAUSED) {
+        if (!paused_sound.isPlaying()) {
+            ofSoundStopAll();
+            paused_sound.play();
+        }
         
-        adjustPacmanSound();
+    } else if (current_state == ENDING_SCREEN) {
+        
     }
 }
+
 void pacmanGame::loadNewLevel() {
     int num_lives_left = pacman.num_lives;
     maze = Maze{level_num};
@@ -79,8 +101,11 @@ void pacmanGame::updatePacman() {
     if(new_pos == pacman.pos) {
         pacman.setDirection(Pacman::NONE);
     }
+    
     if (!maze.isPacmanAlive()) {
         pacman.num_lives--;
+        pacman_dying.play();
+        sleep(2);
     }
     
     pacman.pos = new_pos;
@@ -154,13 +179,17 @@ void pacmanGame::updateGhost5() {
 
 
 void pacmanGame::adjustPacmanSound() {
+    if (!pacman_siren.isPlaying()) {
+        ofSoundStopAll();
+        pacman_siren.play();
+    }
+    
     if (pacman.getDirection() == Pacman::NONE) {
         waka_waka.stop();
     
     } else {
-        if (waka_waka.isPlaying() == false) {
+        if (!waka_waka.isPlaying()) {
             waka_waka.play();
-            waka_waka.setLoop(true);
         }
     }
     
@@ -178,7 +207,12 @@ void pacmanGame::draw() {
     } else if (current_state == PAUSED) {
         drawPauseScreen();
         
+    } else if(current_state == LEADERBOARD) {
+        //drawLeaderboard();
+        
     } else if (current_state == ENDING_SCREEN) {
+        ofSoundStopAll();
+        ending_song.play();
         drawEndingScreen();
     }
 }
@@ -194,7 +228,7 @@ void pacmanGame::drawStartScreen(){
                       ofGetWindowWidth() / 5, ofGetWindowHeight() / 20);
 
     
-    ofRectangle leaderboard( ofGetWindowWidth()/2-ofGetWindowWidth()/10,
+    ofRectangle leaderboard(ofGetWindowWidth()/2-ofGetWindowWidth()/10,
                             3 * ofGetWindowHeight() / 4
                             - ofGetWindowHeight() /40 + ofGetWindowHeight()/10,
                             ofGetWindowWidth()/5, ofGetWindowHeight()/20);
@@ -283,13 +317,6 @@ void pacmanGame::keyPressed(int key){
     if(upper_key=='P' && (current_state == IN_PROGRESS ||
                           current_state == PAUSED)){
         current_state = (current_state == IN_PROGRESS) ? PAUSED : IN_PROGRESS;
-        if(pacman_siren.isPlaying()) {
-            pacman_siren.stop();
-            waka_waka.stop();
-        } else {
-            pacman_siren.play();
-            pacman_siren.setLoop(true);
-        }
     }
     
     if (current_state == IN_PROGRESS) {
@@ -338,11 +365,10 @@ void pacmanGame::mousePressed(int x, int y, int button){
         if (start_var.inside(x, y)) {
             current_state = IN_PROGRESS;
             start_song.stop();
-            pacman_siren.play();
-            waka_waka.play();
             
         } else if (leaderboard_var.inside(x, y)) {
-            
+            ofSoundStopAll();
+            current_state = LEADERBOARD;
         }
     }
     

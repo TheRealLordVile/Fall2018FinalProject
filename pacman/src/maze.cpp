@@ -17,7 +17,8 @@ Maze::Maze(int num_level) {
 void Maze::setUpLayout(int num_level) {
     ofFile file;
     std::string data_path;
-    switch (num_level){
+    
+    switch (num_level) {
         case 4 ... INT_MAX:
             data_path = "layout_level_4+.json";
             break;
@@ -31,8 +32,8 @@ void Maze::setUpLayout(int num_level) {
             data_path = "layout_level_1.json";
             break;
     }
+    
     file.open(ofToDataPath(data_path), ofFile::ReadWrite, true);
-    file.setReadable();
     nlohmann::json json;
     json << file;
     vector<vector<int>> int_layout = json.get<vector<vector<int>>>();
@@ -64,8 +65,8 @@ void Maze::updateLayout(int col, int row, mazeElement new_value) {
 }
 
 std::pair<int,int> Maze::getInitPacmanPosition() {
-    for (int x = 0; x<layout.size(); x++) {
-        for (int y = 0; y<layout[0].size(); y++) {
+    for (int x = 0; x < layout.size(); x++) {
+        for (int y = 0; y < layout[0].size(); y++) {
             if (layout[x][y] == PACMAN) {
                 return std::make_pair(x, y);
                 
@@ -103,7 +104,9 @@ std::pair<int,int> Maze::getInitGhostPosition(int ghost_type) {
             }
         }
     }
+    return std::make_pair(0, 0);
 }
+
 
 ofImage Maze::getCoinSprite() {
     return coin_sprite;
@@ -261,6 +264,7 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             break;
         case 4:
             ghost = GHOST4;
+            break;
         case 5:
             ghost = GHOST5;
     }
@@ -272,7 +276,9 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
         case 0:
             ghosts_collide = layout[x-1][y] == GHOST1 ||
                              layout[x-1][y] == GHOST2 ||
-                             layout[x-1][y] == GHOST3;
+                             layout[x-1][y] == GHOST3 ||
+                             layout[x-1][y] == GHOST4 ||
+                             layout[x-1][y] == GHOST5;
             if (x == 0 || ghosts_collide) {
                 return pos;
             }
@@ -315,11 +321,12 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             
             break;
         case 2:
-            ghosts_collide = layout[x+1][y] == GHOST1 ||
-                             layout[x+1][y] == GHOST2 ||
-                             layout[x+1][y] == GHOST3 ||
-                             layout[x+1][y] == GHOST4 ||
-                             layout[x+1][y] == GHOST5;
+            ghosts_collide = layout[x][y-1] == GHOST1 ||
+                             layout[x][y-1] == GHOST2 ||
+                             layout[x][y-1] == GHOST3 ||
+                             layout[x][y-1] == GHOST4 ||
+                             layout[x][y-1] == GHOST5;
+
             if (y == 0 || ghosts_collide) {
                 return pos;
             }
@@ -337,12 +344,12 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             
             break;
         case 3:
-            ghosts_collide = layout[x+1][y] == GHOST1 ||
-                             layout[x+1][y] == GHOST2 ||
-                             layout[x+1][y] == GHOST3 ||
-                             layout[x+1][y] == GHOST4 ||
-                             layout[x+1][y] == GHOST5;
-            if (y == layout[0].size()-2 || ghosts_collide) {
+            ghosts_collide = layout[x][y+1] == GHOST1 ||
+                             layout[x][y+1] == GHOST2 ||
+                             layout[x][y+1] == GHOST3 ||
+                             layout[x][y+1] == GHOST4 ||
+                             layout[x][y+1] == GHOST5;
+            if (y == layout[0].size() - 2 || ghosts_collide) {
                 return pos;
             }
             
