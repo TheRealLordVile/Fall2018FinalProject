@@ -7,11 +7,6 @@
 #include "ghost.hpp"
 
 class pacmanGame : public ofBaseApp{
-    std::pair<double,double> start_coord_x;
-    std::pair<double,double> start_coord_y;
-
-    std::pair<double,double> leader_coord_x;
-    std::pair<double,double> leader_coord_y;
     enum GameState {
         START_SCREEN,
         IN_PROGRESS,
@@ -21,16 +16,18 @@ class pacmanGame : public ofBaseApp{
     
     ofRectangle start_var;
     ofRectangle leaderboard_var;
-    
-    GameState current_state = START_SCREEN;
+    int level_num;
+    GameState current_state;
     ofSoundPlayer start_song;
     ofSoundPlayer pacman_siren;
     ofSoundPlayer waka_waka;
-    Maze maze;
+    Maze maze{1};
     Pacman pacman;
     Ghost ghost_1{1};
     Ghost ghost_2{2};
     Ghost ghost_3{3};
+    Ghost ghost_4{4};
+    Ghost ghost_5{5};
 
     void setUpSounds();
     void setUpPositions();
@@ -39,6 +36,10 @@ class pacmanGame : public ofBaseApp{
     void updateGhost1();
     void updateGhost2();
     void updateGhost3();
+    void updateGhost4();
+    void updateGhost5();
+    void loadNewLevel();
+
 
     void drawStartScreen();
     void drawPauseScreen();

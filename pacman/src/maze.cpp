@@ -6,28 +6,43 @@
 //
 
 #include "maze.hpp"
-Maze::Maze() {
+Maze::Maze(int num_level) {
     background.load("../../images/background.png");
     coin_sprite.load("../../images/coin.png");
-    setUpLayout();
+    setUpLayout(num_level);
     setUpNumCoins();
     pacman_alive = true;
 }
 
-void Maze::setUpLayout() {
+void Maze::setUpLayout(int num_level) {
     ofFile file;
-    file.open(ofToDataPath("layout.json"), ofFile::ReadWrite, true);
+    std::string data_path;
+    switch (num_level){
+        case 4 ... INT_MAX:
+            data_path = "layout_level_4+.json";
+            break;
+        case 3:
+            data_path = "layout_level_3.json";
+            break;
+        case 2:
+            data_path = "layout_level_2.json";
+            break;
+        case 1:
+            data_path = "layout_level_1.json";
+            break;
+    }
+    file.open(ofToDataPath(data_path), ofFile::ReadWrite, true);
     file.setReadable();
-    nlohmann::json f;
-    f << file;
-    vector<vector<int>> k = f.get<vector<vector<int>>>();
+    nlohmann::json json;
+    json << file;
+    vector<vector<int>> int_layout = json.get<vector<vector<int>>>();
     layout = vector<vector<mazeElement>>();
-    for(vector<int> row: k){
-        vector<mazeElement> x;
-        for (int i: row) {
-            x.push_back((mazeElement)i );
+    for(vector<int> int_row: int_layout) {
+        vector<mazeElement> row;
+        for (int element: int_row) {
+            row.push_back((mazeElement)element);
         }
-        layout.push_back(x);
+        layout.push_back(row);
     }
 }
 
@@ -74,7 +89,10 @@ std::pair<int,int> Maze::getInitGhostPosition(int ghost_type) {
             ghost = GHOST3;
             break;
         case 4:
+            ghost = GHOST4;
             break;
+        case 5:
+            ghost = GHOST5;
     }
     
     for (int x = 0; x<layout.size(); x++) {
@@ -205,8 +223,9 @@ void Maze::checkCollision(int x, int y) {
         case GHOST1:
         case GHOST2:
         case GHOST3:
+        case GHOST4:
+        case GHOST5:
             pacman_alive = false;
-            break;
     }
 }
 
@@ -240,6 +259,10 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
         case 3:
             ghost = GHOST3;
             break;
+        case 4:
+            ghost = GHOST4;
+        case 5:
+            ghost = GHOST5;
     }
     
     int x = pos.first;
@@ -271,7 +294,9 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
         case 1:
             ghosts_collide = layout[x+1][y] == GHOST1 ||
                              layout[x+1][y] == GHOST2 ||
-                             layout[x+1][y] == GHOST3;
+                             layout[x+1][y] == GHOST3 ||
+                             layout[x+1][y] == GHOST4 ||
+                             layout[x+1][y] == GHOST5;
             
             if (x >= layout.size() - 2 || ghosts_collide) {
                 return pos;
@@ -290,9 +315,11 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             
             break;
         case 2:
-            ghosts_collide = layout[x][y-1] == GHOST1 ||
-                             layout[x][y-1] == GHOST2 ||
-                             layout[x][y-1] == GHOST3;
+            ghosts_collide = layout[x+1][y] == GHOST1 ||
+                             layout[x+1][y] == GHOST2 ||
+                             layout[x+1][y] == GHOST3 ||
+                             layout[x+1][y] == GHOST4 ||
+                             layout[x+1][y] == GHOST5;
             if (y == 0 || ghosts_collide) {
                 return pos;
             }
@@ -310,9 +337,11 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             
             break;
         case 3:
-            ghosts_collide = layout[x][y+1] == GHOST1 ||
-                             layout[x][y+1] == GHOST2 ||
-                             layout[x][y+1] == GHOST3;
+            ghosts_collide = layout[x+1][y] == GHOST1 ||
+                             layout[x+1][y] == GHOST2 ||
+                             layout[x+1][y] == GHOST3 ||
+                             layout[x+1][y] == GHOST4 ||
+                             layout[x+1][y] == GHOST5;
             if (y == layout[0].size()-2 || ghosts_collide) {
                 return pos;
             }

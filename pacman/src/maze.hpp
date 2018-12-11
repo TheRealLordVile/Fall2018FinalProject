@@ -21,10 +21,12 @@ public:
         PACMAN = 3,
         GHOST1 = 4,
         GHOST2 = 5,
-        GHOST3 = 6
+        GHOST3 = 6,
+        GHOST4 = 7,
+        GHOST5 = 8
     };
     
-    Maze();
+    Maze(int level_num);
     void updateLayout(int col, int row, mazeElement new_value);
     ofImage getCoinSprite();
     ofImage getBackground();
@@ -40,7 +42,7 @@ public:
     bool areAllCoinsEaten();
     bool isPacmanAlive();
 private:
-    void setUpLayout();
+    void setUpLayout(int num_level);
     void setUpNumCoins();
     bool pacman_alive;
     void checkCollision(int x, int y);

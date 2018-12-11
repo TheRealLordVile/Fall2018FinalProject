@@ -3,6 +3,8 @@
 //--------------------------------------------------------------
 void pacmanGame::setup() {
     srand(static_cast<unsigned>(time(0)));
+    level_num = 1;
+    current_state = START_SCREEN;
     setUpSounds();
     setUpPositions();
 }
@@ -11,7 +13,14 @@ void pacmanGame::setUpPositions() {
     pacman.pos = maze.getInitPacmanPosition();
     ghost_1.pos = maze.getInitGhostPosition(1);
     ghost_2.pos = maze.getInitGhostPosition(2);
-    ghost_3.pos = maze.getInitGhostPosition(3);
+    switch (level_num) {
+        case 4 ... INT_MAX:
+            ghost_5.pos = maze.getInitGhostPosition(5);
+        case 3:
+            ghost_4.pos = maze.getInitGhostPosition(4);
+        case 2:
+            ghost_3.pos = maze.getInitGhostPosition(3);
+    }
 
 }
 
@@ -35,14 +44,33 @@ void pacmanGame::setUpSounds() {
 //--------------------------------------------------------------
 void pacmanGame::update() {
     if(current_state == IN_PROGRESS) {
-        if(maze.areAllCoinsEaten() || pacman.num_lives == -1) {
+        if(maze.areAllCoinsEaten()) {
+            level_num++;
+            loadNewLevel();
+        }
+        
+        if (pacman.num_lives == -1) {
             current_state = ENDING_SCREEN;
         }
+        
         updatePacman();
         updateGhosts();
         
         adjustPacmanSound();
     }
+}
+void pacmanGame::loadNewLevel() {
+    int num_lives_left = pacman.num_lives;
+    maze = Maze{level_num};
+    pacman = Pacman();
+    pacman.num_lives = num_lives_left;
+    ghost_1= Ghost{1};
+    ghost_2 = Ghost{2};
+    ghost_3 = Ghost{3};
+    ghost_4 = Ghost{4};
+    ghost_5 = Ghost{5};
+    setUpPositions();
+    
 }
 
 void pacmanGame::updatePacman() {
@@ -61,7 +89,14 @@ void pacmanGame::updatePacman() {
 void pacmanGame::updateGhosts() {
     updateGhost1();
     updateGhost2();
-    updateGhost3();
+    switch (level_num) {
+        case 4 ... INT_MAX:
+            updateGhost5();
+        case 3:
+            updateGhost4();
+        case 2:
+            updateGhost3();
+    }
 }
 
 void pacmanGame::updateGhost1() {
@@ -96,6 +131,27 @@ void pacmanGame::updateGhost3() {
         ghost_3.pos = new_pos;
     }
 }
+
+void pacmanGame::updateGhost4() {
+    std::pair<int,int> new_pos = maze.canGhostMove(4, ghost_4.getDirection(), ghost_4.pos);
+    if (new_pos == ghost_4.pos) {
+        ghost_4.setDirection(std::rand() % 4);
+        
+    } else {
+        ghost_4.pos = new_pos;
+    }
+}
+
+void pacmanGame::updateGhost5() {
+    std::pair<int,int> new_pos = maze.canGhostMove(5, ghost_5.getDirection(), ghost_5.pos);
+    if (new_pos == ghost_5.pos) {
+        ghost_5.setDirection(std::rand() % 4);
+        
+    } else {
+        ghost_5.pos = new_pos;
+    }
+}
+
 
 void pacmanGame::adjustPacmanSound() {
     if (pacman.getDirection() == Pacman::NONE) {
@@ -193,6 +249,10 @@ void pacmanGame::drawGameState() {
                 ghost_2.getGhostSprite().draw(x_loc, y_loc,x_size,y_size);
             } else if (element == Maze::mazeElement::GHOST3) {
                 ghost_3.getGhostSprite().draw(x_loc, y_loc,x_size,y_size);
+            } else if (element == Maze::mazeElement::GHOST4) {
+                ghost_4.getGhostSprite().draw(x_loc, y_loc,x_size,y_size);
+            }else if (element == Maze::mazeElement::GHOST5) {
+                ghost_5.getGhostSprite().draw(x_loc, y_loc,x_size,y_size);
             }
         }
     }
