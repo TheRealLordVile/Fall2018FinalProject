@@ -22,7 +22,6 @@ void pacmanGame::setUpPositions() {
         case 2:
             ghost_3.pos = maze.getInitGhostPosition(3);
     }
-
 }
 
 void pacmanGame::setUpSounds() {
@@ -88,7 +87,10 @@ void pacmanGame::update() {
         }
         
     } else if (current_state == ENDING_SCREEN) {
-        
+        if (!ending_song.isPlaying()) {
+            ofSoundStopAll();
+            ending_song.play();
+        }
     }
 }
 
@@ -260,8 +262,8 @@ void pacmanGame::drawStartScreen(){
                             - ofGetWindowHeight() /40 + ofGetWindowHeight()/10,
                             ofGetWindowWidth()/5, ofGetWindowHeight()/20);
     
-    start_var = start;
-    leaderboard_var = leaderboard;
+    start_button = start;
+    leaderboard_button = leaderboard;
     
     leaderboard_rect.rectangle(leaderboard);
     leaderboard_rect.setColor(ofColor(25,25,112));
@@ -327,11 +329,32 @@ void pacmanGame::drawPauseScreen() {
 }
 
 void pacmanGame::drawLeaderboard() {
-    string pause_message = "";
-    for (int i: leaderboard) {
-        pause_message += std::to_string(i) + "\n";
+    ofRectangle background(0,0,ofGetWindowWidth(), ofGetWindowHeight());
+    ofPath colored_background;
+    colored_background.rectangle(background);
+    colored_background.setColor(ofColor(25,25,80));
+    colored_background.setFilled(true);
+    colored_background.draw();
+    
+    ofImage leaderboard_frame;
+    leaderboard_frame.load("../../images/leaderboard_frame.png");
+    leaderboard_frame.draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
+    
+    ofTrueTypeFont end_font;
+    end_font.load(OF_TTF_SANS, 0.02 * ofGetWindowHeight()+ 0.02 * ofGetWindowWidth());
+    string leaderboard_message = "LEADERBOARD \n\n";
+    for (int i=0; i< leaderboard.size(); i++) {
+        // Add two extra empty spaces to all lines except the one that starts
+        // with 10 to align them.
+        if (i + 1 != 10) {
+            leaderboard_message += "  ";
+        }
+        
+        leaderboard_message += "     "+std::to_string(i + 1)+".) "+std::to_string(leaderboard[i]) + "\n";
     }
-    ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
+    
+    end_font.drawString(leaderboard_message, ofGetWindowWidth() / 2 - end_font.stringWidth(leaderboard_message)/2, ofGetWindowHeight() / 10);
+    
 }
 
 void pacmanGame::drawEndingScreen() {
@@ -339,10 +362,10 @@ void pacmanGame::drawEndingScreen() {
         ofImage ending_background;
         ending_background.load("../../images/ending_background.jpg");
         ending_background.draw(0,0, ofGetWindowWidth(), ofGetWindowHeight());
-    
         ofImage game_over;
         game_over.load("../../images/game_over.png");
-        game_over.draw(3*ofGetWindowWidth()/5, ofGetWindowHeight()/6,ofGetWindowWidth()/7, ofGetWindowHeight()/7);
+        game_over.draw(3 * ofGetWindowWidth()/5, ofGetWindowHeight()/6,
+                       ofGetWindowWidth()/7, ofGetWindowHeight()/7);
     }
 }
 
@@ -397,11 +420,11 @@ void pacmanGame::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void pacmanGame::mousePressed(int x, int y, int button){
     if (current_state == START_SCREEN) {
-        if (start_var.inside(x, y)) {
+        if (start_button.inside(x, y)) {
             current_state = IN_PROGRESS;
             start_song.stop();
             
-        } else if (leaderboard_var.inside(x, y)) {
+        } else if (leaderboard_button.inside(x, y)) {
             ofSoundStopAll();
             current_state = LEADERBOARD;
         }

@@ -16,8 +16,9 @@ class pacmanGame : public ofBaseApp{
     };
     
     GameState current_state;
-    ofRectangle start_var;
-    ofRectangle leaderboard_var;
+    ofRectangle start_button;
+    ofRectangle leaderboard_button;
+    ofRectangle end_screen_leaderboard_button;
     int level_num;
     std::vector<int> leaderboard;
     
