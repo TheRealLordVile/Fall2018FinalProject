@@ -15,7 +15,7 @@ Maze::Maze(int num_level) {
 }
 
 void Maze::setUpLayout(int num_level) {
-    ofFile file;
+    ofFile layout_file;
     std::string data_path;
     
     switch (num_level) {
@@ -33,13 +33,17 @@ void Maze::setUpLayout(int num_level) {
             break;
     }
     
-    file.open(ofToDataPath(data_path), ofFile::ReadWrite, true);
+    layout_file.open(ofToDataPath(data_path), ofFile::ReadWrite, true);
     nlohmann::json json;
-    json << file;
-    vector<vector<int>> int_layout = json.get<vector<vector<int>>>();
-    layout = vector<vector<mazeElement>>();
-    for(vector<int> int_row: int_layout) {
-        vector<mazeElement> row;
+    json << layout_file;
+    layout_file.close();
+    
+    std::vector<std::vector<int>> int_layout =
+    json.get<std::vector<std::vector<int>>>();
+    
+    layout = std::vector<std::vector<mazeElement>>();
+    for(std::vector<int> int_row: int_layout) {
+        std::vector<mazeElement> row;
         for (int element: int_row) {
             row.push_back((mazeElement)element);
         }

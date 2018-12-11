@@ -7,7 +7,7 @@ void pacmanGame::setup() {
     current_state = START_SCREEN;
     setUpSounds();
     setUpPositions();
-    //setUpLeaderboardValues();
+    setUpLeaderboardValues();
 }
 
 void pacmanGame::setUpPositions() {
@@ -44,9 +44,19 @@ void pacmanGame::setUpSounds() {
     paused_sound.load("../../sounds/pacman_intermission.mp3");
     paused_sound.setLoop(true);
     
-    ending_song.load("");
+    ending_song.load("../../sounds/ending_song.mp3");
     ending_song.setLoop(true);
     
+}
+
+void pacmanGame::setUpLeaderboardValues() {
+    ofFile score_file;
+    
+    score_file.open(ofToDataPath("scores.json"), ofFile::ReadWrite, true);
+    nlohmann::json json;
+    json << score_file;
+    score_file.close();
+    leaderboard = json.get<std::vector<int>>();
 }
 
 //--------------------------------------------------------------
@@ -64,6 +74,7 @@ void pacmanGame::update() {
         }
         
         if (pacman.num_lives == -1) {
+            updateLeaderboard();
             current_state = ENDING_SCREEN;
         }
         
@@ -78,6 +89,15 @@ void pacmanGame::update() {
         
     } else if (current_state == ENDING_SCREEN) {
         
+    }
+}
+
+void pacmanGame::updateLeaderboard() {
+    int new_score = (level_num - 1) + maze.getNumberOfCoins()/10;
+    leaderboard.push_back(new_score);
+    std::sort(leaderboard.begin(), leaderboard.end(), greater<int>());
+    if (leaderboard.size() > 10) {
+        leaderboard.pop_back();
     }
 }
 

@@ -15,10 +15,11 @@ class pacmanGame : public ofBaseApp{
         ENDING_SCREEN
     };
     
+    GameState current_state;
     ofRectangle start_var;
     ofRectangle leaderboard_var;
     int level_num;
-    GameState current_state;
+    std::vector<int> leaderboard;
     
     ofSoundPlayer start_song;
     ofSoundPlayer pacman_siren;
@@ -37,6 +38,7 @@ class pacmanGame : public ofBaseApp{
 
     void setUpSounds();
     void setUpPositions();
+    void setUpLeaderboardValues();
     void updatePacman();
     void updateGhosts();
     void updateGhost1();
@@ -44,6 +46,7 @@ class pacmanGame : public ofBaseApp{
     void updateGhost3();
     void updateGhost4();
     void updateGhost5();
+    void updateLeaderboard();
     void loadNewLevel();
 
 
