@@ -7,8 +7,8 @@
 
 #include "maze.hpp"
 Maze::Maze(int num_level) {
-    background.load("../../images/background.png");
-    coin_sprite.load("../../images/coin.png");
+    background.load(kLayoutImgPath);
+    coin_sprite.load(kCoinImgPath);
     setUpLayout(num_level);
     setUpNumCoins();
     pacman_alive = true;
@@ -20,16 +20,16 @@ void Maze::setUpLayout(int num_level) {
     
     switch (num_level) {
         case 4 ... INT_MAX:
-            data_path = "layout_level_4+.json";
+            data_path = kLevel4MoreImgPath;
             break;
         case 3:
-            data_path = "layout_level_3.json";
+            data_path = kLevel3ImgPath;
             break;
         case 2:
-            data_path = "layout_level_2.json";
+            data_path = kLevel2ImgPath;
             break;
         case 1:
-            data_path = "layout_level_1.json";
+            data_path = kLevel1ImgPath;
             break;
     }
     
@@ -52,6 +52,7 @@ void Maze::setUpLayout(int num_level) {
 }
 
 void Maze::setUpNumCoins() {
+    // Set to 0 for initialization.
     init_num_coins = 0;
     for (std::vector<mazeElement> row:layout) {
         for (mazeElement e : row) {
@@ -137,12 +138,12 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
     
     if (!pacman_alive) {
         layout[x][y] = EMPTY;
-        layout[17][14] = PACMAN;
-        return std::make_pair(17, 14);
+        layout[kInitialPacmanPos.first][kInitialPacmanPos.second] = PACMAN;
+        return kInitialPacmanPos;
     }
     
     switch (pacman_direction) {
-        case 1:
+        case kPacmanUp:
             if (x == 0) {
                 return pos;
             }
@@ -151,15 +152,16 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
                 checkCollision(x-1,y);
                 if (!pacman_alive) {
                     layout[x][y] = EMPTY;
-                    layout[17][14] = PACMAN;
-                    return std::make_pair(17, 14);
+                    layout[kInitialPacmanPos.first][kInitialPacmanPos.second]
+                    = PACMAN;
+                    return kInitialPacmanPos;
                 }
                 layout[x][y] = EMPTY;
                 layout[x-1][y] = PACMAN;
                 return std::make_pair(x-1, y);
             }
             break;
-        case 2:
+        case kPacmanDown:
             if (x == layout[0].size()+1) {
                 return pos;
             }
@@ -168,8 +170,9 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
                 checkCollision(x+1,y);
                 if (!pacman_alive) {
                     layout[x][y] = EMPTY;
-                    layout[17][14] = PACMAN;
-                    return std::make_pair(17, 14);
+                    layout[kInitialPacmanPos.first][kInitialPacmanPos.second]
+                    = PACMAN;
+                    return kInitialPacmanPos;
                 }
                 layout[x][y] = EMPTY;
                 layout[x+1][y] = PACMAN;
@@ -177,8 +180,8 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
             }
             
             break;
-        case 3:
-            if(x == 14 && y == 0){
+        case kPacmanLeft:
+            if(x == kInitialPacmanPos.second && y == 0){
                 layout[x][y] = EMPTY;
                 layout[x][layout[0].size()-1] = PACMAN;
                 return std::make_pair(x, layout[0].size()-1);
@@ -187,8 +190,9 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
                 checkCollision(x,y-1);
                 if (!pacman_alive) {
                     layout[x][y] = EMPTY;
-                    layout[17][14] = PACMAN;
-                    return std::make_pair(17, 14);
+                    layout[kInitialPacmanPos.first][kInitialPacmanPos.second]
+                    = PACMAN;
+                    return kInitialPacmanPos;
                 }
                 layout[x][y] = EMPTY;
                 layout[x][y-1] = PACMAN;
@@ -196,8 +200,8 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
             }
     
             break;
-        case 4:
-            if(x == 14 && y == layout[0].size()-1) {
+        case kPacmanRight:
+            if(x == kInitialPacmanPos.second && y == layout[0].size()-1) {
                 layout[x][y] = EMPTY;
                 layout[x][0] = PACMAN;
                 return std::make_pair(x,0);
@@ -207,8 +211,9 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
                 checkCollision(x,y+1);
                 if (!pacman_alive) {
                     layout[x][y] = EMPTY;
-                    layout[17][14] = PACMAN;
-                    return std::make_pair(17, 14);
+                    layout[kInitialPacmanPos.first][kInitialPacmanPos.second]
+                    = PACMAN;
+                    return kInitialPacmanPos;
                 }
                 layout[x][y] = EMPTY;
                 layout[x][y+1] = PACMAN;
@@ -277,7 +282,7 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
     int y = pos.second;
     bool ghosts_collide;
     switch (ghost_direction) {
-        case 0:
+        case kGhostUp:
             ghosts_collide = layout[x-1][y] == GHOST1 ||
                              layout[x-1][y] == GHOST2 ||
                              layout[x-1][y] == GHOST3 ||
@@ -301,7 +306,7 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             
             break;
             
-        case 1:
+        case kGhostDown:
             ghosts_collide = layout[x+1][y] == GHOST1 ||
                              layout[x+1][y] == GHOST2 ||
                              layout[x+1][y] == GHOST3 ||
@@ -324,7 +329,7 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             }
             
             break;
-        case 2:
+        case kGhostLeft:
             ghosts_collide = layout[x][y-1] == GHOST1 ||
                              layout[x][y-1] == GHOST2 ||
                              layout[x][y-1] == GHOST3 ||
@@ -347,7 +352,7 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
             }
             
             break;
-        case 3:
+        case kGhostRight:
             ghosts_collide = layout[x][y+1] == GHOST1 ||
                              layout[x][y+1] == GHOST2 ||
                              layout[x][y+1] == GHOST3 ||
@@ -366,10 +371,9 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
                 }
                 
                 layout[x][y+1] = ghost;
-                return std::make_pair(x, y+1);
+                return std::make_pair(x,y+1);
             }
     }
     
     return pos;
-    
 }

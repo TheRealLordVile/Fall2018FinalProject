@@ -8,10 +8,11 @@
 #ifndef MAZE_HPP
 #define MAZE_HPP
 
-#include <stdio.h>
 #include <vector>
 #include <ofMain.h>
+#include <stdio.h>
 #include <nlohmann/json.hpp>
+
 class Maze {
 public:
     enum mazeElement{
@@ -42,6 +43,22 @@ public:
     bool areAllCoinsEaten();
     bool isPacmanAlive();
 private:
+    std::string kLayoutImgPath = "../../images/background.png";
+    std::string kCoinImgPath = "../../images/coin.png";
+    std::string kLevel1ImgPath = "layout_level_1.json";
+    std::string kLevel2ImgPath = "layout_level_2.json";
+    std::string kLevel3ImgPath = "layout_level_3.json";
+    std::string kLevel4MoreImgPath = "layout_level_4+.json";
+    std::pair<int,int> kInitialPacmanPos = std::make_pair(17,14);
+    static const int kPacmanUp = 1;
+    static const int kPacmanDown = 2;
+    static const int kPacmanLeft = 3;
+    static const int kPacmanRight = 4;
+    static const int kGhostUp = 0;
+    static const int kGhostDown = 1;
+    static const int kGhostLeft = 2;
+    static const int kGhostRight = 3;
+    
     void setUpLayout(int num_level);
     void setUpNumCoins();
     bool pacman_alive;

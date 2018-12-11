@@ -6,23 +6,23 @@
 //
 
 #include "ghost.hpp"
-Ghost::Ghost(int type) {
+Ghost::Ghost(int ghost_type) {
     std::string img_path;
-    switch (type) {
+    switch (ghost_type) {
         case 1:
-            img_path = "../../images/ghost_1.png";
+            img_path = kGhost1ImgPath;
             break;
         case 2:
-            img_path = "../../images/ghost_2.png";
+            img_path = kGhost2ImgPath;
             break;
         case 3:
-            img_path = "../../images/ghost_3.png";
+            img_path = kGhost3ImgPath;
             break;
         case 4:
-            img_path = "../../images/ghost_4.png";
+            img_path = kGhost4ImgPath;
             break;
         case 5:
-            img_path = "../../images/ghost_5.png";
+            img_path = kGhost5ImgPath;
     }
 
     ghost_sprite.load(img_path);
