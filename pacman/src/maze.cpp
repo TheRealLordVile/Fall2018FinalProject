@@ -81,7 +81,6 @@ std::pair<int,int> Maze::getInitPacmanPosition() {
 }
 
 std::pair<int,int> Maze::getInitGhostPosition(int ghost_type) {
-    
     mazeElement ghost;
     
     switch (ghost_type) {

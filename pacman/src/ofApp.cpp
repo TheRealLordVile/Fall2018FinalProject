@@ -259,7 +259,7 @@ void pacmanGame::drawStartScreen(){
     
     ofRectangle leaderboard(ofGetWindowWidth()/2-ofGetWindowWidth()/10,
                             3 * ofGetWindowHeight() / 4
-                            - ofGetWindowHeight() /40 + ofGetWindowHeight()/10,
+                            - ofGetWindowHeight() /80 + ofGetWindowHeight()/10,
                             ofGetWindowWidth()/5, ofGetWindowHeight()/20);
     
     start_button = start;
@@ -282,7 +282,7 @@ void pacmanGame::drawStartScreen(){
     ofDrawBitmapString(leaderboard_message,
                        ofGetWindowWidth()/2-ofGetWindowWidth()/18,
                        3 * ofGetWindowHeight() / 4
-                       + ofGetWindowHeight()/10);
+                       + ofGetWindowHeight()/9);
 }
 
 void pacmanGame::drawGameState() {
@@ -352,9 +352,18 @@ void pacmanGame::drawLeaderboard() {
         
         leaderboard_message += "     "+std::to_string(i + 1)+".) "+std::to_string(leaderboard[i]) + "\n";
     }
-    
+    ofSetColor(255,255,0);
     end_font.drawString(leaderboard_message, ofGetWindowWidth() / 2 - end_font.stringWidth(leaderboard_message)/2, ofGetWindowHeight() / 10);
-    
+    ofSetColor(255,255,255);
+    ofPath leaderboard_rect;
+    leaderboard_rect.rectangle(leaderboard_button);
+    leaderboard_rect.setColor(ofColor(0,0,0));
+    leaderboard_rect.setFilled(true);
+    leaderboard_rect.draw();
+    ofDrawBitmapString("START SCREEN",
+                       ofGetWindowWidth()/2-ofGetWindowWidth()/18,
+                       3 * ofGetWindowHeight() / 4
+                       + ofGetWindowHeight()/9);
 }
 
 void pacmanGame::drawEndingScreen() {
@@ -427,6 +436,10 @@ void pacmanGame::mousePressed(int x, int y, int button){
         } else if (leaderboard_button.inside(x, y)) {
             ofSoundStopAll();
             current_state = LEADERBOARD;
+        }
+    } else if (current_state == LEADERBOARD) {
+        if (leaderboard_button.inside(x, y)) {
+            current_state = START_SCREEN;
         }
     }
     
