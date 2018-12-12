@@ -5,6 +5,6 @@
 
 int main() {
     ofSetupOpenGL(780, 740, DISPLAY_MODE);
-    ofSetFrameRate(7);
+    ofSetFrameRate(8);
     ofRunApp(new pacmanGame());
 }

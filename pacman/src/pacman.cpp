@@ -11,9 +11,9 @@ Pacman::Pacman() {
     num_lives = 3;
     num_points = 0;
     anim_count = 0;
-    pacman_sprite_1.load("../../images/pacman_1.png");
+    pacman_sprite_1.load("../../images/pacman_0.png");
     pacman_sprite_2.load("../../images/pacman_1.png");
-    pacman_sprite_3.load("../../images/pacman_1.png");
+    pacman_sprite_3.load("../../images/pacman_2.png");
     direction_moving = RIGHT;
 }
 
@@ -38,20 +38,23 @@ ofImage Pacman::getPacmanSprite() {
     
     switch (direction_moving) {
         case NONE:
-            to_be_returned = last_sprite;
+            to_be_returned = pacman_sprite_2;
+            to_be_returned.rotate90(last_rotation);
             break;
         case UP:
+            last_rotation = 3;
             to_be_returned.rotate90(3);
             break;
         case DOWN:
+            last_rotation = 1;
             to_be_returned.rotate90(1);
             break;
         case LEFT:
+            last_rotation = 2;
             to_be_returned.rotate90(2);
             break;
     }
     
-    last_sprite = to_be_returned;
     return to_be_returned;
 }
 

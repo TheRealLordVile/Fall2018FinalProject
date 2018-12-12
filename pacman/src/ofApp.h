@@ -14,9 +14,11 @@ class pacmanGame : public ofBaseApp{
         LEADERBOARD,
         ENDING_SCREEN
     };
+    
     const int kStartingLevel = 1;
     const int kPacmanStartingNumLives = 3;
     const int kPacmanLostNumLives = -1;
+    
     const std::string kStartSongPath = "../../sounds/start_song.mp3";
     const std::string kPacmanSirenPath = "../../sounds/Siren.mp3";
     const std::string kWakaWakaPath = "../../sounds/PacmanWakaWaka.wav";

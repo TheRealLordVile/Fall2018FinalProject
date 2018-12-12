@@ -33,7 +33,7 @@ private:
     Direction direction_moving;
     int num_points;
     int anim_count;
-    ofImage last_sprite;
+    int last_rotation;
     ofImage pacman_sprite_1;
     ofImage pacman_sprite_2;
     ofImage pacman_sprite_3;

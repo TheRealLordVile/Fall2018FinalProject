@@ -71,8 +71,4 @@ private:
 
 };
 
-
-
-
-
 #endif /* maze_hpp */

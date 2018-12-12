@@ -141,6 +141,7 @@ void pacmanGame::updatePacman() {
     
     if (!maze.isPacmanAlive()) {
         pacman.num_lives--;
+        ofSoundStopAll();
         pacman_dying.play();
         sleep(2);
     }
@@ -266,8 +267,7 @@ void pacmanGame::drawStartScreen(){
     ofPath leaderboard_rect;
     
     start_button = ofRectangle (2*ofGetWindowWidth()/5,
-                                29 * ofGetWindowHeight() / 40,
-                                ofGetWindowWidth() / 5, ofGetWindowHeight() / 20);
+                                29 * ofGetWindowHeight()/40,ofGetWindowWidth() / 5, ofGetWindowHeight() / 20);
     leaderboard_button = ofRectangle(2*ofGetWindowWidth()/5,
                                      67 * ofGetWindowHeight() / 80,
                                      ofGetWindowWidth()/5, ofGetWindowHeight()/20);
