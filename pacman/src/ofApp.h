@@ -14,6 +14,22 @@ class pacmanGame : public ofBaseApp{
         LEADERBOARD,
         ENDING_SCREEN
     };
+    const int kStartingLevel = 1;
+    const int kPacmanStartingNumLives = 3;
+    const int kPacmanLostNumLives = -1;
+    const std::string kStartSongPath = "../../sounds/start_song.mp3";
+    const std::string kPacmanSirenPath = "../../sounds/Siren.mp3";
+    const std::string kWakaWakaPath = "../../sounds/PacmanWakaWaka.wav";
+    const std::string kLeaderboardSongPath ="../../sounds/leaderboard_song.mp3";
+    const std::string kPacmanDyingPath = "../../sounds/pacman_dies_sound.mp3";
+    const std::string kPausedSoundPath = "../../sounds/pacman_intermission.mp3";
+    const std::string kEndingSongPath = "../../sounds/ending_song.mp3";
+    const std::string kStartScreenImgPath = "../../images/start_screen.jpg";
+    const std::string kLeaderboardImgPath ="../../images/leaderboard_frame.png";
+    const std::string kEndingImgPath = "../../images/ending_background.jpg";
+    const std::string kGameOverImgPath = "../../images/game_over.png";
+
+
     
     GameState current_state;
     ofRectangle start_button;
@@ -27,6 +43,7 @@ class pacmanGame : public ofBaseApp{
     ofSoundPlayer waka_waka;
     ofSoundPlayer pacman_dying;
     ofSoundPlayer paused_sound;
+    ofSoundPlayer leaderboard_song;
     ofSoundPlayer ending_song;
     Maze maze{1};
     Pacman pacman;

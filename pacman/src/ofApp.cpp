@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void pacmanGame::setup() {
     srand(static_cast<unsigned>(time(0)));
-    level_num = 1;
+    level_num = kStartingLevel;
     current_state = START_SCREEN;
     setUpSounds();
     setUpPositions();
@@ -25,25 +25,27 @@ void pacmanGame::setUpPositions() {
 }
 
 void pacmanGame::setUpSounds() {
-    start_song.load("../../sounds/start_song.mp3");
+    start_song.load(kStartSongPath);
     start_song.setVolume(0.9);
     start_song.setLoop(true);
 
-    pacman_siren.load("../../sounds/Siren.mp3");
+    pacman_siren.load(kPacmanSirenPath);
     pacman_siren.setVolume(0.6);
     pacman_siren.setLoop(true);
 
-    waka_waka.load("../../sounds/PacmanWakaWaka.wav");
+    waka_waka.load(kWakaWakaPath);
     waka_waka.setVolume(0.09);
     waka_waka.setLoop(true);
-
     
-    pacman_dying.load("../../sounds/pacman_dies_sound.mp3");
+    leaderboard_song.load(kLeaderboardSongPath);
+    leaderboard_song.setLoop(true);
     
-    paused_sound.load("../../sounds/pacman_intermission.mp3");
+    pacman_dying.load(kPacmanDyingPath);
+    
+    paused_sound.load(kPausedSoundPath);
     paused_sound.setLoop(true);
     
-    ending_song.load("../../sounds/ending_song.mp3");
+    ending_song.load(kEndingSongPath);
     ending_song.setLoop(true);
     
 }
@@ -72,7 +74,7 @@ void pacmanGame::update() {
             loadNewLevel();
         }
         
-        if (pacman.num_lives == -1) {
+        if (pacman.num_lives == kPacmanLostNumLives) {
             updateLeaderboard();
             current_state = ENDING_SCREEN;
         }
@@ -86,6 +88,12 @@ void pacmanGame::update() {
             paused_sound.play();
         }
         
+    } else if (current_state == LEADERBOARD) {
+        if (!leaderboard_song.isPlaying()) {
+            ofSoundStopAll();
+            leaderboard_song.play();
+        }
+        
     } else if (current_state == ENDING_SCREEN) {
         if (!ending_song.isPlaying()) {
             ofSoundStopAll();
@@ -95,7 +103,7 @@ void pacmanGame::update() {
 }
 
 void pacmanGame::updateLeaderboard() {
-    int new_score = (level_num - 1) + maze.getNumberOfCoins()/10;
+    int new_score = 100 * (level_num - 1) + maze.getNumberOfCoins()/10;
     leaderboard.push_back(new_score);
     std::sort(leaderboard.begin(), leaderboard.end(), greater<int>());
     if (leaderboard.size() > 10) {
@@ -154,7 +162,8 @@ void pacmanGame::updateGhosts() {
 }
 
 void pacmanGame::updateGhost1() {
-    std::pair<int,int> new_pos = maze.canGhostMove(1, ghost_1.getDirection(), ghost_1.pos);
+    std::pair<int,int> new_pos = maze.canGhostMove(1, ghost_1.getDirection(),
+                                                   ghost_1.pos);
     if (new_pos == ghost_1.pos) {
         ghost_1.setDirection(std::rand() % 4);
     
@@ -166,7 +175,8 @@ void pacmanGame::updateGhost1() {
 }
 
 void pacmanGame::updateGhost2() {
-    std::pair<int,int> new_pos = maze.canGhostMove(2, ghost_2.getDirection(), ghost_2.pos);
+    std::pair<int,int> new_pos = maze.canGhostMove(2, ghost_2.getDirection(),
+                                                   ghost_2.pos);
     if (new_pos == ghost_2.pos) {
         ghost_2.setDirection(std::rand() % 4);
     
@@ -177,7 +187,8 @@ void pacmanGame::updateGhost2() {
 }
 
 void pacmanGame::updateGhost3() {
-   std::pair<int,int> new_pos = maze.canGhostMove(3, ghost_3.getDirection(), ghost_3.pos);
+   std::pair<int,int> new_pos = maze.canGhostMove(3, ghost_3.getDirection(),
+                                                  ghost_3.pos);
     if (new_pos == ghost_3.pos) {
         ghost_3.setDirection(std::rand() % 4);
     
@@ -187,7 +198,8 @@ void pacmanGame::updateGhost3() {
 }
 
 void pacmanGame::updateGhost4() {
-    std::pair<int,int> new_pos = maze.canGhostMove(4, ghost_4.getDirection(), ghost_4.pos);
+    std::pair<int,int> new_pos = maze.canGhostMove(4, ghost_4.getDirection(),
+                                                   ghost_4.pos);
     if (new_pos == ghost_4.pos) {
         ghost_4.setDirection(std::rand() % 4);
         
@@ -197,7 +209,8 @@ void pacmanGame::updateGhost4() {
 }
 
 void pacmanGame::updateGhost5() {
-    std::pair<int,int> new_pos = maze.canGhostMove(5, ghost_5.getDirection(), ghost_5.pos);
+    std::pair<int,int> new_pos = maze.canGhostMove(5, ghost_5.getDirection(),
+                                                   ghost_5.pos);
     if (new_pos == ghost_5.pos) {
         ghost_5.setDirection(std::rand() % 4);
         
@@ -241,36 +254,30 @@ void pacmanGame::draw() {
         
     } else if (current_state == ENDING_SCREEN) {
         ofSoundStopAll();
-        ending_song.play();
         drawEndingScreen();
     }
 }
 
 void pacmanGame::drawStartScreen(){
-    ofImage start_screen_1;
-    start_screen_1.load("../../images/start_screen_1.jpg");
-    start_screen_1.draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
+    ofImage start_screen;
+    start_screen.load(kStartScreenImgPath);
+    start_screen.draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
     ofPath start_rect;
     ofPath leaderboard_rect;
-    ofRectangle start(ofGetWindowWidth()/2 - ofGetWindowWidth()/10,
-                      3 * ofGetWindowHeight() / 4 - ofGetWindowHeight() / 40,
-                      ofGetWindowWidth() / 5, ofGetWindowHeight() / 20);
-
     
-    ofRectangle leaderboard(ofGetWindowWidth()/2-ofGetWindowWidth()/10,
-                            3 * ofGetWindowHeight() / 4
-                            - ofGetWindowHeight() /80 + ofGetWindowHeight()/10,
-                            ofGetWindowWidth()/5, ofGetWindowHeight()/20);
+    start_button = ofRectangle (2*ofGetWindowWidth()/5,
+                                29 * ofGetWindowHeight() / 40,
+                                ofGetWindowWidth() / 5, ofGetWindowHeight() / 20);
+    leaderboard_button = ofRectangle(2*ofGetWindowWidth()/5,
+                                     67 * ofGetWindowHeight() / 80,
+                                     ofGetWindowWidth()/5, ofGetWindowHeight()/20);
     
-    start_button = start;
-    leaderboard_button = leaderboard;
-    
-    leaderboard_rect.rectangle(leaderboard);
+    leaderboard_rect.rectangle(leaderboard_button);
     leaderboard_rect.setColor(ofColor(25,25,112));
     leaderboard_rect.setFilled(true);
     leaderboard_rect.draw();
     
-    start_rect.rectangle(start);
+    start_rect.rectangle(start_button);
     start_rect.setColor(ofColor(25,25,112));
     start_rect.setFilled(true);
     start_rect.draw();
@@ -337,7 +344,7 @@ void pacmanGame::drawLeaderboard() {
     colored_background.draw();
     
     ofImage leaderboard_frame;
-    leaderboard_frame.load("../../images/leaderboard_frame.png");
+    leaderboard_frame.load(kLeaderboardImgPath);
     leaderboard_frame.draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
     
     ofTrueTypeFont end_font;
@@ -350,7 +357,7 @@ void pacmanGame::drawLeaderboard() {
             leaderboard_message += "  ";
         }
         
-        leaderboard_message += "     "+std::to_string(i + 1)+".) "+std::to_string(leaderboard[i]) + "\n";
+        leaderboard_message += "     " + std::to_string(i + 1) + ".) " + std::to_string(leaderboard[i]) + "\n";
     }
     ofSetColor(255,255,0);
     end_font.drawString(leaderboard_message, ofGetWindowWidth() / 2 - end_font.stringWidth(leaderboard_message)/2, ofGetWindowHeight() / 10);
@@ -367,15 +374,22 @@ void pacmanGame::drawLeaderboard() {
 }
 
 void pacmanGame::drawEndingScreen() {
-    if (pacman.num_lives == -1) {
-        ofImage ending_background;
-        ending_background.load("../../images/ending_background.jpg");
-        ending_background.draw(0,0, ofGetWindowWidth(), ofGetWindowHeight());
-        ofImage game_over;
-        game_over.load("../../images/game_over.png");
-        game_over.draw(3 * ofGetWindowWidth()/5, ofGetWindowHeight()/6,
-                       ofGetWindowWidth()/7, ofGetWindowHeight()/7);
-    }
+    ofImage ending_background;
+    ending_background.load(kEndingImgPath);
+    ending_background.draw(0,0, ofGetWindowWidth(), ofGetWindowHeight());
+    ofImage game_over;
+    game_over.load(kGameOverImgPath);
+    game_over.draw(3 * ofGetWindowWidth()/5, ofGetWindowHeight()/6,
+                   ofGetWindowWidth()/7, ofGetWindowHeight()/7);
+    ofPath leaderboard_rect;
+    leaderboard_rect.rectangle(leaderboard_button);
+    leaderboard_rect.setColor(ofColor(0,0,0));
+    leaderboard_rect.setFilled(true);
+    leaderboard_rect.draw();
+    ofDrawBitmapString("SEE THE LEADERBOARD",
+                        ofGetWindowWidth()/2-ofGetWindowWidth()/18,
+                        3 * ofGetWindowHeight() / 4
+                        + ofGetWindowHeight()/9);
 }
 
 //--------------------------------------------------------------
@@ -441,8 +455,14 @@ void pacmanGame::mousePressed(int x, int y, int button){
         if (leaderboard_button.inside(x, y)) {
             current_state = START_SCREEN;
         }
+    } else if (current_state == ENDING_SCREEN) {
+        if (leaderboard_button.inside(x, y)) {
+            current_state = LEADERBOARD;
+            level_num  = kStartingLevel;
+            loadNewLevel();
+            pacman.num_lives = kPacmanStartingNumLives;
+        }
     }
-    
 }
 
 //--------------------------------------------------------------
