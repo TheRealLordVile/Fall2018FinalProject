@@ -40,7 +40,6 @@ void pacmanGame::setUpSounds() {
     waka_waka.setLoop(true);
     
     leaderboard_song.load(kLeaderboardSongPath);
-    leaderboard_song.setLoop(true);
     
     pacman_dying.load(kPacmanDyingPath);
     
@@ -48,10 +47,11 @@ void pacmanGame::setUpSounds() {
     paused_sound.setLoop(true);
     
     ending_song.load(kEndingSongPath);
-    ending_song.setLoop(true);
+    ending_song.setVolume(kEndingSongVol);
 }
 
 void pacmanGame::setUpLeaderboardValues() {
+    // A json file is used to store the top score values.
     ofFile score_file;
     score_file.open(ofToDataPath(kTopScoresDataPath), ofFile::ReadWrite, true);
     nlohmann::json json;
@@ -61,10 +61,10 @@ void pacmanGame::setUpLeaderboardValues() {
 }
 
 void pacmanGame::setUpButtonRectangles() {
-    start_button = ofRectangle (kButtonXMultiplier * ofGetWindowWidth(),
-                                kStartButtonYMultiplier * ofGetWindowHeight(),
-                                kButtonWidthMultiplier * ofGetWindowWidth(),
-                                kButtonHeightMultiplier * ofGetWindowHeight());
+    start_button = ofRectangle(kButtonXMultiplier * ofGetWindowWidth(),
+                               kStartButtonYMultiplier * ofGetWindowHeight(),
+                               kButtonWidthMultiplier * ofGetWindowWidth(),
+                               kButtonHeightMultiplier * ofGetWindowHeight());
     
     leaderboard_button = ofRectangle(kButtonXMultiplier * ofGetWindowWidth(),
                                      kLeaderboardButtonYMultiplier *
@@ -128,6 +128,7 @@ void pacmanGame::updatePacmanSound() {
         pacman_siren.play();
     }
     
+    // Waka waka is played when pacman is moving.
     if (pacman.getDirection() == Pacman::NONE) {
         waka_waka.stop();
         
@@ -145,11 +146,13 @@ void pacmanGame::updatePacman() {
         pacman.setDirection(Pacman::NONE);
     }
     
+    // Number of lives is decreased by one when pacman dies.
+    // And the dying sound is played
     if (!maze.isPacmanAlive()) {
         pacman.setNumLives(pacman.getNumLives() - 1);
         ofSoundStopAll();
         pacman_dying.play();
-        sleep(2);
+        sleep(kPacmanDiedWaitTime);
     }
     
     pacman.setPos(new_pos);
@@ -225,12 +228,13 @@ void pacmanGame::draw() {
         drawLeaderboard();
         
     } else if (current_state == ENDING_SCREEN) {
-        ofSoundStopAll();
         drawEndingScreen();
     }
 }
 
 void pacmanGame::drawStartScreen(){
+    // The backgroung image, the button rectangles and their strings are drawn
+    // in that order.
     ofImage start_screen;
     start_screen.load(kStartScreenImgPath);
     start_screen.draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
@@ -258,12 +262,14 @@ void pacmanGame::drawStartScreen(){
 }
 
 void pacmanGame::drawGameState() {
+    // The background image of the maze is drawn.
     maze.getBackground().draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
     int height = maze.getMazeHeight();
     int width = maze.getMazeWidth();
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            
+            // The default x and y locations and sizes for everything except the
+            // coins, which are sized and placed differently.
             double x_loc = (j - kElementXOffsetMultiplier) *
                            ofGetWindowWidth() / width;
             
@@ -322,6 +328,7 @@ void pacmanGame::drawPauseScreen() {
 }
 
 void pacmanGame::drawLeaderboard() {
+    // The background color is drawn.
     ofRectangle background(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
     ofPath colored_background;
     colored_background.rectangle(background);
@@ -329,10 +336,13 @@ void pacmanGame::drawLeaderboard() {
     colored_background.setFilled(true);
     colored_background.draw();
     
+    // The frame is drawn.
     ofImage leaderboard_frame;
     leaderboard_frame.load(kLeaderboardImgPath);
     leaderboard_frame.draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
     
+    // A TrueTypeFont is created to change the size of the string and to be
+    // able to set a color to it.
     ofTrueTypeFont end_font;
     end_font.load(OF_TTF_SANS, kFontSizeMultiplier *
                   (ofGetWindowHeight() + ofGetWindowWidth()));
@@ -355,6 +365,8 @@ void pacmanGame::drawLeaderboard() {
 }
 
 void pacmanGame::drawEndingScreen() {
+    // The background image, game over image, the button rectange and its string
+    // is drawn in that order.
     ofImage ending_background;
     ending_background.load(kEndingImgPath);
     ending_background.draw(0,0, ofGetWindowWidth(), ofGetWindowHeight());
@@ -385,6 +397,7 @@ std::string pacmanGame::getLeaderboardMessage() {
         }
         
         leaderboard_msg += kLeaderboardString3;
+        // i+1 ranges from 1 to 10, representing the place of each score.
         leaderboard_msg += std::to_string(i + 1);
         leaderboard_msg += kLeaderboardString4;
         leaderboard_msg += std::to_string(leaderboard[i]) + "\n";
@@ -432,20 +445,6 @@ void pacmanGame::keyPressed(int key) {
 }
 
 //--------------------------------------------------------------
-void pacmanGame::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void pacmanGame::mouseMoved(int x, int y ){
-}
-
-//--------------------------------------------------------------
-void pacmanGame::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
 void pacmanGame::mousePressed(int x, int y, int button){
     if (current_state == START_SCREEN) {
         if (start_button.inside(x, y)) {
@@ -473,31 +472,16 @@ void pacmanGame::mousePressed(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void pacmanGame::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void pacmanGame::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void pacmanGame::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
 void pacmanGame::windowResized(int w, int h){
+    // Button rectangle sizes are updated when the window is resized.
     setUpButtonRectangles();
 }
 
-//--------------------------------------------------------------
-void pacmanGame::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void pacmanGame::dragEvent(ofDragInfo dragInfo){ 
-
-}
+void pacmanGame::gotMessage(ofMessage msg){}
+void pacmanGame::dragEvent(ofDragInfo dragInfo){}
+void pacmanGame::mouseReleased(int x, int y, int button){}
+void pacmanGame::mouseEntered(int x, int y){}
+void pacmanGame::mouseExited(int x, int y){}
+void pacmanGame::keyReleased(int key){}
+void pacmanGame::mouseMoved(int x, int y ){}
+void pacmanGame::mouseDragged(int x, int y, int button){}

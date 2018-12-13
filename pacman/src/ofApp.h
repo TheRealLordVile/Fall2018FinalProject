@@ -51,6 +51,7 @@ class pacmanGame : public ofBaseApp {
     const double kStartSoundVol = 0.9;
     const double kPacmanSirenVol = 0.6;
     const double kWakaWakaSoundVol = 0.09;
+    const double kEndingSongVol = 0.2;
     const double kElementSizeMultiplier = 1.5;
     const double kElementXOffsetMultiplier = 0.3333333333;
     const double kElementYOffsetMultiplier = 0.2;
@@ -75,6 +76,7 @@ class pacmanGame : public ofBaseApp {
     const int kGhost5Index = 5;
     const int kNumGhostDirections = 4;
     const int kMaxNumScores = 10;
+    const int kPacmanDiedWaitTime = 2;
     
     static const char kPauseButton = 'P';
     static const char kUpButton = 'W';

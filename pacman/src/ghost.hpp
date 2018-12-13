@@ -11,9 +11,8 @@
 #include <ofMain.h>
 class Ghost {
 public:
-    Ghost(int ghost_type);
-    std::pair<int,int> pos;
-    
+    // Enums to represent possible directoin, different from pacman since ghosts
+    // can't stop.
     enum ghostDirection {
         UP = 0,
         DOWN = 1,
@@ -21,8 +20,14 @@ public:
         RIGHT = 3
     };
     
+    // Constructor of the class takes in the type of the ghost as the only
+    // parameter.
+    Ghost(int ghost_type);
+
     ofImage getGhostSprite();
     ghostDirection getDirection();
+    
+    // Necessary setters and getters for class variables.
     void setDirection(int new_direct);
     std::pair<int,int> getPos();
     void setPos(std::pair<int,int> new_pos);
@@ -36,7 +41,9 @@ private:
     std::string kGhost4ImgPath = "../../images/ghost_4.png";
     std::string kGhost5ImgPath = "../../images/ghost_5.png";
 
+    // Class variables.
     ofImage ghost_sprite;
     ghostDirection direction;
+    std::pair<int,int> pos;
 };
 #endif /* ghost_hpp */

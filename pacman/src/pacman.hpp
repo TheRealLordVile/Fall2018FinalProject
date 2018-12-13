@@ -13,6 +13,8 @@
 
 class Pacman {
 public:
+    
+    // Enums for the direction, pacman can not move as well.
     enum Direction {
         NONE,
         UP,
@@ -22,6 +24,8 @@ public:
     };
     
     Pacman();
+    
+    // Getters and Setters.
     ofImage getPacmanSprite();
     Direction getDirection();
     void setDirection(Direction new_dir);
@@ -44,12 +48,12 @@ private:
     std::string kSprite1ImgPath = "../../images/pacman_1.png";
     std::string kSprite2ImgPath = "../../images/pacman_2.png";
 
-
+    // Class variables.
     std::pair<int,int> pos;
     int num_lives;
-    Direction direction_moving;
     int anim_count;
     int last_rotation;
+    Direction direction_moving;
     ofImage pacman_sprite_0;
     ofImage pacman_sprite_1;
     ofImage pacman_sprite_2;

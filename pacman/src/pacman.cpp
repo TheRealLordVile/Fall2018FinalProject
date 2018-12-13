@@ -8,6 +8,8 @@
 #include "pacman.hpp"
 
 Pacman::Pacman() {
+    // Class variables are initialized and the inital direction is set to RIGHT.
+    // The opposite of the ghosts.
     num_lives = kInitNumLives;
     anim_count = kInitAnimCount;
     pacman_sprite_0.load(kSprite0ImgPath);
@@ -17,8 +19,11 @@ Pacman::Pacman() {
 }
 
 ofImage Pacman::getPacmanSprite() {
+    // A variable is created to determine the image that'll be returned.
     ofImage to_be_returned;
     
+    // A variable, anim_count, is used to rotate between three images to animate
+    // pacman.
     switch (anim_count) {
         case 0:
             to_be_returned = pacman_sprite_0;
@@ -34,6 +39,9 @@ ofImage Pacman::getPacmanSprite() {
             break;
     }
     
+    // The image is rotated according to pacmans direction and the rotation
+    // amount is stored in the class variable last_rotation to make sure that
+    // the correct image is returned when pacman is not moving.
     switch (direction_moving) {
         case NONE:
             to_be_returned = pacman_sprite_1;
@@ -61,6 +69,7 @@ ofImage Pacman::getPacmanSprite() {
 Pacman::Direction Pacman::getDirection() {
     return direction_moving;
 }
+
 void Pacman::setDirection(Pacman::Direction new_dir) {
     direction_moving = new_dir;
 }
@@ -76,6 +85,7 @@ void Pacman::setPos(std::pair<int,int> new_pos) {
 int Pacman::getNumLives() {
     return num_lives;
 }
+
 void Pacman::setNumLives(int new_num_lives) {
     num_lives = new_num_lives;
 }

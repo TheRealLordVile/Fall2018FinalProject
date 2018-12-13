@@ -20,19 +20,20 @@ void Maze::setUpLayout(int num_level) {
     
     switch (num_level) {
         case 4 ... INT_MAX:
-            data_path = kLevel4MoreImgPath;
+            data_path = kLevel4AndMoreLayoutPath;
             break;
         case 3:
-            data_path = kLevel3ImgPath;
+            data_path = kLevel3LayoutPath;
             break;
         case 2:
-            data_path = kLevel2ImgPath;
+            data_path = kLevel2LayoutPath;
             break;
         case 1:
-            data_path = kLevel1ImgPath;
+            data_path = kLevel1LayoutPath;
             break;
     }
     
+    // A json file is used to import the layout of the current level.
     layout_file.open(ofToDataPath(data_path), ofFile::ReadWrite, true);
     nlohmann::json json;
     json << layout_file;
@@ -65,16 +66,11 @@ void Maze::setUpNumCoins() {
     current_num_coins = init_num_coins;
 }
 
-void Maze::updateLayout(int col, int row, mazeElement new_value) {
-    layout[col][row] = new_value;
-}
-
 std::pair<int,int> Maze::getInitPacmanPosition() {
     for (int x = 0; x < layout.size(); x++) {
         for (int y = 0; y < layout[0].size(); y++) {
             if (layout[x][y] == PACMAN) {
                 return std::make_pair(x, y);
-                
             }
         }
     }
@@ -135,12 +131,16 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
     int x = pos.first;
     int y = pos.second;
     
+    // Pacman is returned to its inital position if it dies.
     if (!pacman_alive) {
         layout[x][y] = EMPTY;
         layout[kInitialPacmanPos.first][kInitialPacmanPos.second] = PACMAN;
         return kInitialPacmanPos;
     }
     
+    // Pacman can't move if the next element is a Wall or he's at the edge.
+    // Collisions are checked after each move and the initial position is
+    // returned if pacman dies.
     switch (pacman_direction) {
         case kPacmanUp:
             if (x == 0) {
@@ -167,12 +167,7 @@ std::pair<int,int> Maze::canPacmanMove (int pacman_direction, std::pair<int,int>
             
             if (layout[x+1][y] != WALL) {
                 checkCollision(x+1,y);
-                if (!pacman_alive) {
-                    layout[x][y] = EMPTY;
-                    layout[kInitialPacmanPos.first][kInitialPacmanPos.second]
-                    = PACMAN;
-                    return kInitialPacmanPos;
-                }
+               
                 layout[x][y] = EMPTY;
                 layout[x+1][y] = PACMAN;
                 return std::make_pair(x+1,y);
@@ -236,6 +231,7 @@ void Maze::checkCollision(int x, int y) {
         case GHOST3:
         case GHOST4:
         case GHOST5:
+            // Pacman dies if it collides with a ghost
             pacman_alive = false;
     }
 }
@@ -249,6 +245,7 @@ bool Maze::areAllCoinsEaten() {
 }
 
 bool Maze::isPacmanAlive() {
+    // Resets the pacman_alive variable before returning its value.
     if (!pacman_alive) {
         pacman_alive = true;
         return false;
@@ -260,6 +257,7 @@ bool Maze::isPacmanAlive() {
 std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
                                        std::pair<int,int> pos) {
     mazeElement ghost;
+    // ghost is set to the proper enum according to its the type.
     switch (ghost_type) {
         case 1:
             ghost = GHOST1;
@@ -279,7 +277,11 @@ std::pair<int,int> Maze::canGhostMove (int ghost_type, int ghost_direction,
     
     int x = pos.first;
     int y = pos.second;
+    // A variable, ghosts_collide, is used to prevent ghosts from erroring.
     bool ghosts_collide;
+    
+    // Movement is pretty similar to pacman, except ghosts can't collide with
+    // each other and can't teleport through the map.
     switch (ghost_direction) {
         case kGhostUp:
             ghosts_collide = layout[x-1][y] == GHOST1 ||
