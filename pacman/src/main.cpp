@@ -1,4 +1,3 @@
-#include "ofMain.h"
 #include "ofApp.h"
 
 #define DISPLAY_MODE OF_WINDOW

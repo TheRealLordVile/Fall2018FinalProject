@@ -24,7 +24,12 @@ public:
     ofImage getGhostSprite();
     ghostDirection getDirection();
     void setDirection(int new_direct);
+    std::pair<int,int> getPos();
+    void setPos(std::pair<int,int> new_pos);
+
 private:
+    // Constants.
+    // Cannot use the word const to be able to use the copy assignment operator.
     std::string kGhost1ImgPath = "../../images/ghost_1.png";
     std::string kGhost2ImgPath = "../../images/ghost_2.png";
     std::string kGhost3ImgPath = "../../images/ghost_3.png";

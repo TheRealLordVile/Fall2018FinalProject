@@ -40,3 +40,11 @@ void Ghost::setDirection(int new_direct) {
 Ghost::ghostDirection Ghost::getDirection() {
     return direction;
 }
+
+std::pair<int,int> Ghost::getPos() {
+    return pos;
+}
+
+void Ghost::setPos(std::pair<int,int> new_pos) {
+    pos = new_pos;
+}
